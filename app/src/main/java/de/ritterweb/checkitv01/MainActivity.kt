@@ -8,8 +8,10 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import de.ritterweb.checkitv01.databinding.ActivityMainBinding
 import de.ritterweb.checkitv01.databinding.FragmentHomeBinding
 import kotlinx.android.synthetic.main.activity_main.*
@@ -19,6 +21,9 @@ class MainActivity : AppCompatActivity(){
     //// View Binding in Activity, einfacher als in einem Segment
     private lateinit var binding: ActivityMainBinding
     //////////////////
+
+    private lateinit var appBarConfiguration: AppBarConfiguration
+
 
     private lateinit var navController: NavController
 
@@ -35,10 +40,20 @@ class MainActivity : AppCompatActivity(){
         // Anfang Toolbar einrichten
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.findNavController()
+
+        appBarConfiguration = AppBarConfiguration(         //  Die Suche wird als Top-Fragment definiert, damit nach der Suche aus dem HomeScreen beim Rücksprung über den Pfeil oben nicht im Homescreen ein Pfeil zurück zu Homescreen angezeigt wird
+            setOf(R.id.homeFragment, R.id.searchFragment)   // appBarConfiguration kann in der FOlge zusätlich mit in die Funktionen übergeben werden umd das gewünschte Verhalten zu erreichen
+        )
+
+
         setSupportActionBar(toolbar)   //// Merkwürdig. Hie muss ich toolbar als Variable verwenden, die aus dem alten BindingVerfahren kommt. eine Verewendung von binding.toolbar führt dazu, dass in der Toolbar nichts angezeigt wird
-        setupActionBarWithNavController(navController)
+        setupActionBarWithNavController(navController, appBarConfiguration)  // hier wird zusätzlich die AppBar Configuration übergeben, damit sowohl Hoime als auch Search als Top angesehene werden
         // Ende Toolbar einrichten
         //////////////////////////
+
+        //////////////////////////
+        // Anfang Botton Menu  einrichten
+        bottom_nav.setupWithNavController(navController)
 
     }
 
