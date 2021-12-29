@@ -2,14 +2,13 @@ package de.ritterweb.checkitv01
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import de.ritterweb.checkitv01.databinding.ActivityMainBinding
 import de.ritterweb.checkitv01.databinding.FragmentHomeBinding
@@ -42,6 +41,38 @@ class MainActivity : AppCompatActivity(){
         //////////////////////////
 
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.options_menu, menu)      // Hier wird das Menu in der Toolbar angelegt aus dem xml Layoutfile
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        // in dem return if werden zwei Fälle unterschieden:
+        // wenn der MenuPunkt termsAndConditions aufgerufen wird ( übergeben im item als ID) wird über eine globalAction, die im Navgraph pber rechtsklick, Add, Global gesetzt wird
+        // direkt von jedem Fragment in dieses Fragment navigiert
+        ////
+        // wenn andere Menupunkte aufgerufen wird über die im NavGraph definierte Navigation gewechselt.
+
+
+        return if(item.itemId == R.id.termsAndConditions) {
+                val action = NavGraphDirections.actionGlobalTermsFragment()
+                navController.navigate(action)
+            true
+
+        }else  {
+
+             // hier wird die FragmentNavigation ausgewählt, die sich daraus ergibt, was im LayoutFile des Menus als Label gesetzt ist
+        // und gleichzeitig im NavGraph als ID für das Fragement gesetzt ist ( Beide Werte müssen identisch sein!
+        return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
+                // Diese Syntax führt dazu, dass das Ergebnis von item.onNavDestinationSelected(navController) übergeben wird, wenn es true ist
+                // wenn das Ergebnis fals ist, wird das ergebnis von super.onOptionsItemSelected(item) zurückgegeben.
+                //in der super.xxx Funktion wird dann ggf. die Fehlerbehandlung im Standard ausgelöst
+
+        }
+    }
+
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()    // wenn Navigate upfunktionier , also navController.navigateUp() true ist, wird True zurückgegeben, Andernfalls das Ergbnis des Super.OnNavigate....

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/termsAndConditions"
+        android:title="Termin &amp; Conditions"
+        app:showAsAction="never" />
+
+
+    <!--   android:menuCategory="secondary" sorgt dafür, das die Navigation per Backpfeil
+     in der Toolbar nicht auf den Homescreen zurückspringt, sondern auf das aufrunfende Segment-->
+    <item
+        android:id="@+id/settingsFragment"
+        android:menuCategory="secondary"
+        android:title="Settings"
+
+        app:showAsAction="never" />
+</menu>
