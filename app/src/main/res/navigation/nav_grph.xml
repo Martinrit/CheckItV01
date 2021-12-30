@@ -17,6 +17,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_dialogCklInput"
+            app:destination="@id/dialogCklInput" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -85,4 +88,13 @@
         android:name="de.ritterweb.checkitv01.ui.SearchFragment"
         android:label="Search"
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/dialogCklInput"
+        android:name="de.ritterweb.checkitv01.ui.DialogClkInput"
+        android:label="Checklisten auswählen"
+        tools:layout="@layout/dialog_clk_input">
+        <action
+            android:id="@+id/action_dialogCklInput_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>
