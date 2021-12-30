@@ -3,12 +3,11 @@ package de.ritterweb.checkitv01.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-//import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import de.ritterweb.checkitv01.R
-import de.ritterweb.checkitv01.database.Ckl
+import de.ritterweb.checkitv01.repository.database.Ckl
 
 class CklAdapter(var content:ArrayList<Ckl>):RecyclerView.Adapter<CklAdapter.ViewHolder>() {
 

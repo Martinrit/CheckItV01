@@ -1,17 +1,16 @@
-package de.ritterweb.checkitv01
+package de.ritterweb.checkitv01.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.*
+import de.ritterweb.checkitv01.NavGraphDirections
+import de.ritterweb.checkitv01.R
 import de.ritterweb.checkitv01.databinding.ActivityMainBinding
-import de.ritterweb.checkitv01.databinding.FragmentHomeBinding
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(){

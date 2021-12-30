@@ -1,4 +1,4 @@
-package de.ritterweb.checkitv01
+package de.ritterweb.checkitv01.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import de.ritterweb.checkitv01.databinding.FragmentHomeBinding
+import de.ritterweb.checkitv01.R
 import de.ritterweb.checkitv01.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment(R.layout.fragment_login) {

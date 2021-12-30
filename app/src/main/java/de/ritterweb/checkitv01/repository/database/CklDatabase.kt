@@ -1,4 +1,4 @@
-package de.ritterweb.checkitv01.database
+package de.ritterweb.checkitv01.repository.database
 
 import android.app.Application
 import androidx.room.Database

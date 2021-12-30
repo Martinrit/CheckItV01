@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="de.ritterweb.checkitv01.HomeFragment"
+        android:name="de.ritterweb.checkitv01.ui.HomeFragment"
         android:label="Checklisten"
         tools:layout="@layout/fragment_home">
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="de.ritterweb.checkitv01.LoginFragment"
+        android:name="de.ritterweb.checkitv01.ui.LoginFragment"
         android:label="Gruppen anlegen"
         tools:layout="@layout/fragment_login">
         <action
@@ -48,7 +48,7 @@
     <!--    Im Folgenden Fragment wird mit {username} der Inhalt der Variable username als Label gesetzt-->
     <fragment
         android:id="@+id/welcomeFragment"
-        android:name="de.ritterweb.checkitv01.WelcomeFragment"
+        android:name="de.ritterweb.checkitv01.ui.WelcomeFragment"
         android:label="Wilkommen {username}"
         tools:layout="@layout/fragment_welcome">
         <argument
@@ -65,12 +65,12 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="de.ritterweb.checkitv01.SettingsFragment"
+        android:name="de.ritterweb.checkitv01.ui.SettingsFragment"
         android:label="Settings"
         tools:layout="@layout/fragment_setting" />
     <fragment
         android:id="@+id/termsFragment"
-        android:name="de.ritterweb.checkitv01.TermsFragment"
+        android:name="de.ritterweb.checkitv01.ui.TermsFragment"
         android:label="Terms &amp; Conditions"
         tools:layout="@layout/fragment_terms" />
     <action
@@ -82,7 +82,7 @@
         app:popExitAnim="@anim/slide_out_top" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="de.ritterweb.checkitv01.SearchFragment"
+        android:name="de.ritterweb.checkitv01.ui.SearchFragment"
         android:label="Search"
         tools:layout="@layout/fragment_search" />
 </navigation>
