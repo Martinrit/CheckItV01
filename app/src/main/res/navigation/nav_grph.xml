@@ -33,6 +33,15 @@
             <argument android:name="username" />
             <argument android:name="password" />
         </action>
+        <argument
+            android:name="username"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <deepLink
+            android:id="@+id/deepLink"
+            android:autoVerify="true"
+            app:uri="example.com/login/{username}" />
     </fragment>
 
 

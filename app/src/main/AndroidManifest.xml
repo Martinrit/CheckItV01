@@ -17,6 +17,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!-- die nav-graph zeile wird eingefügt um mit dem nav-graph deeplinks machen zu können siehe Stelle 5:27 in https://www.youtube.com/watch?v=hEJ78_KLcfA&list=PLrnPJCHvNZuCamMFswP597mUF-whXoAA6&index=9   -->
+            <nav-graph android:value="@navigation/nav_grph" />
         </activity>
     </application>
 

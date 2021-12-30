@@ -4,14 +4,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.onNavDestinationSelected
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.ui.*
 import de.ritterweb.checkitv01.databinding.ActivityMainBinding
 import de.ritterweb.checkitv01.databinding.FragmentHomeBinding
 import kotlinx.android.synthetic.main.activity_main.*
@@ -22,10 +20,10 @@ class MainActivity : AppCompatActivity(){
     private lateinit var binding: ActivityMainBinding
     //////////////////
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
 
 
     private lateinit var navController: NavController
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,14 +33,16 @@ class MainActivity : AppCompatActivity(){
         ///////////////
         //// View Binding in Activity, einfacher als in einem Segment
         binding = ActivityMainBinding.inflate(layoutInflater)
-
+        var mDrawerLayout : DrawerLayout = binding.drawerLayout
         //////////////////////////
         // Anfang Toolbar einrichten
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.findNavController()
-
+        var id: Int = binding.drawerLayout.id
         appBarConfiguration = AppBarConfiguration(         //  Die Suche wird als Top-Fragment definiert, damit nach der Suche aus dem HomeScreen beim Rücksprung über den Pfeil oben nicht im Homescreen ein Pfeil zurück zu Homescreen angezeigt wird
-            setOf(R.id.homeFragment, R.id.searchFragment)   // appBarConfiguration kann in der FOlge zusätlich mit in die Funktionen übergeben werden umd das gewünschte Verhalten zu erreichen
+            setOf(R.id.homeFragment, R.id.searchFragment),   // appBarConfiguration kann in der FOlge zusätlich mit in die Funktionen übergeben werden umd das gewünschte Verhalten zu erreichen
+            drawer_layout                  // hier wird noch das Menu für das Hamburger Menu übergeben, dass dann auch in der AppBar angezeigt wird
+                                                    // Problem: der übergebene Wert drawer_layout ist noch mit Android Extensions gebaut. Übergabe eines binding Elements funktioniert bei mir noch nicht
         )
 
 
@@ -54,6 +54,11 @@ class MainActivity : AppCompatActivity(){
         //////////////////////////
         // Anfang Botton Menu  einrichten
         bottom_nav.setupWithNavController(navController)
+
+
+        //////////////////////////
+        /// Das HamburgerMenu einrichten
+        nav_view.setupWithNavController(navController)
 
     }
 
@@ -90,7 +95,8 @@ class MainActivity : AppCompatActivity(){
 
 
     override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp() || super.onSupportNavigateUp()    // wenn Navigate upfunktionier , also navController.navigateUp() true ist, wird True zurückgegeben, Andernfalls das Ergbnis des Super.OnNavigate....
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()    // wenn Navigate upfunktionier , also navController.navigateUp() true ist, wird True zurückgegeben, Andernfalls das Ergbnis des Super.OnNavigate....
                                                                             // siehe Stelle 6:45min in https://www.youtube.com/watch?v=yLOsaR_nDrU&list=PLrnPJCHvNZuCamMFswP597mUF-whXoAA6&index=5
+                                                                            // Damit das Hamburger Menu funktioniert muss navigateUP mit der appBarConfiguration aufgerufen werden. ( Achtung muss importiert werden)
     }
 }
