@@ -12,10 +12,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import de.ritterweb.checkitv01.R
 import de.ritterweb.checkitv01.databinding.FragmentHomeBinding
-import de.ritterweb.checkitv01.repository.database.Ckl
 import de.ritterweb.checkitv01.ui.main.MainViewModel
 import de.ritterweb.checkitv01.ui.main.MainViewModelFactory
-import kotlinx.android.synthetic.main.fragment_home.view.*
+
 
 
 class HomeFragment : Fragment(R.layout.fragment_home){
@@ -28,10 +27,9 @@ class HomeFragment : Fragment(R.layout.fragment_home){
     private lateinit var rootView: View
 
     // Variablem fr die RecyclerView:
-    //  1. Objekt für die Recyclerview
-    //  2. der Adapter der Recyclerview
+    //  der Adapter der Recyclerview
     //  alle Variablen sind als Lateinit definiert, dass bedeutet, dass sie später von Funktionen innerhalb der Klasse initialisiert werden
-    private lateinit var rv: RecyclerView
+          //    private lateinit var rv: RecyclerView   wird hier nicht verwendet, weil über ViewBinding erledigt wird.
     private lateinit var adapter: CklAdapter3
 
     // MainViewModel:  Hier die Verbindung zum MainViewModell der Anwendung, inder in drei Stufen
@@ -85,19 +83,21 @@ class HomeFragment : Fragment(R.layout.fragment_home){
         // damit ist auch binding gefüllt und aktiv
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        val view = binding.root
-
-
-
-        binding.rvHome.adapter = CklAdapter3(ArrayList())
-
-        /////////
-        rootView = binding.root
-
+        //die Klassenvariable Adapter wird gesetzt
+        // Hier wird nur der Typ übergeben, aber nicht der Inhalt
         adapter = CklAdapter3(ArrayList())
 
+        // der Adapter der Recyclerview wird gesetzt
+        // es wird der in der vorherigen Zeile definiete adapter verwendet
         binding.rvHome.adapter = adapter
+//        binding.rvHome.adapter = CklAdapter3(ArrayList())
 
+        /////////
+        rootView = binding.root          //Variable der Klasse wir initialisiert ( lateinit)
+
+        // Das mainViewModel wirt instanziiert
+        // Es wird aus der ViewModelProvider-Klasse, die als eigenes Kotlin Class File angelegt wurde generiert
+        // Aufruf des ViewModelproviders mit den erforderlichen Paramentern und der Funktion .get(), die das MainViewModel lädt
 
         mainViewModel = ViewModelProvider(
             requireActivity(),
@@ -107,48 +107,28 @@ class HomeFragment : Fragment(R.layout.fragment_home){
 
 
         ///////////////////////////////////////////
-        // Observer einrichten
+        // Observer einrichten  und die LiveDatas dem Adapter als Content hinzufügen
         // Es wird ein Observer auf die LiveCkls im MainViewModel gesetzt
         // immer wenn ein Eintrag geändert wurde wird für alle items das ausgeführt was in den geschweiften Klammern steht)
+        // noch nicht ganz verstanden: aber wie sollte es anders sein:
+        // Es werden die LiveCkls aus dem MainViewModel geladen und ein Observer gesetzt.
+        // dabei wird der Content des ArrayLists für jedem item dazugefügt bzw. ergänzt
+        //  in der geschweiften Klammer wird gesagt, was geschiet wenn der Observer eine Änderung sieht:
+        // dabei werden jedesmal der Inhalt aller items der LiveCkl in der ArrayList geupdatet
+        //  die Update-Methode wurde hierzu in der apapterKlasse definiert.
         mainViewModel.getLiveCkls().observe(viewLifecycleOwner, Observer { items ->
             adapter.updateContent(ArrayList(items))
         })
-        return view
+
+        // Rückgabe der View des HomeFragements - Rückgabe muss bei Fragment gemacht werden.
+        // Wenn Aufruf aus einer Activity dann geht das etwas anders, siehe  https://developer.android.com/topic/libraries/view-binding
+
+        return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        rootView = view
-
-        rv = rootView.findViewById(R.id.rv_home)
-
-        adapter =  CklAdapter3(ArrayList())
-        rv.adapter = adapter
-
-        mainViewModel = ViewModelProvider(
-            requireActivity(),
-            MainViewModelFactory(requireActivity().application)
-        ).get(MainViewModel::class.java)
-        mainViewModel.getLiveCkls().observe(viewLifecycleOwner, Observer { items ->
-            adapter.updateContent(ArrayList(items))
-        })
-
-//        // Implement the Interfaces:
-//        adapter.setOnItemClickListener(object:CklAdapter2.OnItemClickListener {
-//            override fun setOnItemClickListener(pos: Int) {
-//
-//                Log.v("asdf", "Click")
-//            }
-//        })
-//
-//            binding.buttonLogin.setOnClickListener {
-//            val action = HomeFragmentDirections.actionHomeFragmentToLoginFragment()
-//            findNavController().navigate(action)
-//        }
-
-
     }
 
 
