@@ -1,15 +1,12 @@
 package de.ritterweb.checkitv01.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import de.ritterweb.checkitv01.R
 import de.ritterweb.checkitv01.databinding.FragmentHomeBinding
 import de.ritterweb.checkitv01.ui.main.MainViewModel
@@ -116,7 +113,7 @@ class HomeFragment : Fragment(R.layout.fragment_home){
         //  in der geschweiften Klammer wird gesagt, was geschiet wenn der Observer eine Änderung sieht:
         // dabei werden jedesmal der Inhalt aller items der LiveCkl in der ArrayList geupdatet
         //  die Update-Methode wurde hierzu in der apapterKlasse definiert.
-        mainViewModel.getLiveCkls().observe(viewLifecycleOwner, Observer { items ->
+        mainViewModel.getLiveCkls().observe(viewLifecycleOwner,Observer { items ->
             adapter.updateContent(ArrayList(items))
         })
 
@@ -127,9 +124,9 @@ class HomeFragment : Fragment(R.layout.fragment_home){
     }
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//    }
 
 
 
