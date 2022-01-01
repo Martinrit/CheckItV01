@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -13,12 +14,16 @@ import de.ritterweb.checkitv01.R
 import de.ritterweb.checkitv01.databinding.FragmentHomeBinding
 import de.ritterweb.checkitv01.ui.main.MainViewModel
 import de.ritterweb.checkitv01.ui.main.MainViewModelFactory
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.random.Random
 
 
-
-class HomeFragment : Fragment(R.layout.fragment_home){
+class HomeFragment : Fragment(R.layout.fragment_home),CklAdapter3.OnItemClickListener {
     //  Class des Fragments:
     // Die Klasse wird aus Fragment abgeleitet, übergeben wird dabei das xml-Layout des Fragments
+    // ebenso wird die KLasse aus dem CklAdapter3.OnItemClickListener abgeleitet, der dort nur als Interface angelegt ist und wiederum hier im Homefragement
+    // bei der Vewendung implementiert werden muss.
 
     // Anlegen der Variablen und Objekte die in der ganzen Klasse genutzt werden
     //
@@ -28,7 +33,7 @@ class HomeFragment : Fragment(R.layout.fragment_home){
     // Variablem fr die RecyclerView:
     //  der Adapter der Recyclerview
     //  alle Variablen sind als Lateinit definiert, dass bedeutet, dass sie später von Funktionen innerhalb der Klasse initialisiert werden
-          //    private lateinit var rv: RecyclerView   wird hier nicht verwendet, weil über ViewBinding erledigt wird.
+    //    private lateinit var rv: RecyclerView   wird hier nicht verwendet, weil über ViewBinding erledigt wird.
     private lateinit var adapter: CklAdapter3
 
     // MainViewModel:  Hier die Verbindung zum MainViewModell der Anwendung, inder in drei Stufen
@@ -71,7 +76,7 @@ class HomeFragment : Fragment(R.layout.fragment_home){
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ):View {
+    ): View {
         super.onCreate(savedInstanceState)
 
         // _binding wird dem FragementxxxxBinding des Fragements gleichgesetzt
@@ -84,7 +89,8 @@ class HomeFragment : Fragment(R.layout.fragment_home){
 
         //die Klassenvariable Adapter wird gesetzt
         // Hier wird nur der Typ übergeben, aber nicht der Inhalt
-        adapter = CklAdapter3(ArrayList())
+        // ebenso wird dem Adapter der listener übergeben der hier im Fragment definiert ist, dies geschieht mit this
+        adapter = CklAdapter3(ArrayList(),this)
 
         // der Adapter der Recyclerview wird gesetzt
         // es wird der in der vorherigen Zeile definiete adapter verwendet
@@ -110,7 +116,6 @@ class HomeFragment : Fragment(R.layout.fragment_home){
         ).get(MainViewModel::class.java)
 
 
-
         ///////////////////////////////////////////
         // Observer einrichten  und die LiveDatas dem Adapter als Content hinzufügen
         // Es wird ein Observer auf die LiveCkls im MainViewModel gesetzt
@@ -121,7 +126,7 @@ class HomeFragment : Fragment(R.layout.fragment_home){
         //  in der geschweiften Klammer wird gesagt, was geschiet wenn der Observer eine Änderung sieht:
         // dabei werden jedesmal der Inhalt aller items der LiveCkl in der ArrayList geupdatet
         //  die Update-Methode wurde hierzu in der apapterKlasse definiert.
-        mainViewModel.getLiveCkls().observe(viewLifecycleOwner,Observer { items ->
+        mainViewModel.getLiveCkls().observe(viewLifecycleOwner, Observer { items ->
             adapter.updateContent(ArrayList(items))
         })
 
@@ -130,22 +135,38 @@ class HomeFragment : Fragment(R.layout.fragment_home){
         return binding.root
     }
 
+    /////////  hier wird die onItemClick Funktion die im Interface des Adapters angelegt ist implementiert.
+    //  Der Rumpf der Funktion kann durch Drücken von CTRL+'I'  automatisch angelegt werden
+    //  Denn das Fragment erbt, siehe Klasendefinition ganz oben, nicht nur von Fragement, sondern auch von OnItemClickListener
+    //  und durch das Vererben wird die Implemtierung von onItemClick zwingend durch das Interface im Adapter vorgeschrieben
+    override fun onItemClick(postion: Int) {
+        Toast.makeText(requireContext(), "Position $postion wurde geklickt", Toast.LENGTH_LONG).show()
+        var modifiedCkl =  adapter.cklLists[postion]
+        modifiedCkl.name = "Geclickt"
+        modifiedCkl.status = 1
+        mainViewModel.updateCkl(modifiedCkl!!)
+        // adapter.notifyItemChanged(postion)  // braucht man  nicht, das ja der Observer im Adapter aktiv ist.
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//    }
+    }
+
 
 
 
     override fun onDestroyView() {
-    // Besonderheit beim ViewBinding in Fragments: Da die Fragments auch nach dem Schließen im Hintergrund bestehen bleiben
-    // muss die angelegte Instance der xxxBinding Klasse stets beim Schließen des Fragments gelöscht werden
+        // Besonderheit beim ViewBinding in Fragments: Da die Fragments auch nach dem Schließen im Hintergrund bestehen bleiben
+        // muss die angelegte Instance der xxxBinding Klasse stets beim Schließen des Fragments gelöscht werden
         super.onDestroyView()
         _binding = null
     }
 
-//    override fun setOnItemClickListener(position: Int) {
-//        Log.v("asdf","Click")
-//    }
+
+
+    fun removeItem(view: View) {   // view wird eigentlich nicht gebraucht, wird aber für den Aufruf gebraucht
+    }
+
+
+
+
+
 
 }

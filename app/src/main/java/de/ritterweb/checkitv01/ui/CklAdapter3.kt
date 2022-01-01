@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.ViewPropertyAnimatorUpdateListener
 import androidx.recyclerview.widget.RecyclerView
 import de.ritterweb.checkitv01.R
 import de.ritterweb.checkitv01.repository.database.Ckl
@@ -18,10 +19,18 @@ import kotlinx.android.synthetic.main.item_rv_main.view.*
 //  ( override). Damit ist der Adapter universell nutzbar, die Logik, z.B. die Reaktion auf Klicks auf ein View Item wird die die aufrufende UI Klasse verlagert
 //
 //  Aufruf
-//        private val cklLists: List<Ckl>    : hier wird die Datenquelle und deren Typ übergeben
+//        private val cklLists: List<Ckl>    : hier wird die Datenquelle und deren Typ als ArrayList übergeben
+//        private val listener: OnItemClickListener  : hier wird der OnItemClickListener des aufrufenden Fragements übergeben
+//                                                     Dies dient dazu, den OnItemClickListener ausserhalb des Adapater im Code des Fragements setzten zu können
+//                                                     Achtung: hier muss beim Tippen der OnClickListener des eigenen Projekts (de.ritterweb.checkit... und nicht der von android.widget.Adap... genutzt werden
+//                                                     Siehe  Stelle 7:00 https://www.youtube.com/watch?v=wKFJsrdiGS8&list=PLrnPJCHvNZuCqEyW_LVTM9r6NnyGD4Db8&index=4
 //        Der Typ ist RecyclerView.Adapter als ckladatper3.ExampleViewHolder, also der hier in dieser Classe definerten ExampelViewHolder
 //
-class CklAdapter3(private var cklLists: ArrayList<Ckl>):RecyclerView.Adapter<CklAdapter3.ExampleViewHolder> (){
+class CklAdapter3(
+    var cklLists: ArrayList<Ckl>,    /// diese InputVariable wird nicht private gesetzt, ist also public und kann daher von außen zugegriffeen werden umZ.B den Datensatz einer bestimmten Stelle im Adapter zuzugreifen
+    private val listener: OnItemClickListener
+):
+    RecyclerView.Adapter<CklAdapter3.ExampleViewHolder> (){
 
     // hier wird eine statisches Array  statusDrawables von Drawables angelegt, dass anschließen beim Ausfüllen dew Icons in OnBindViewholder
     // verwendet wird um das jeweilige Icon für den Status anzuzeigen
@@ -96,7 +105,10 @@ class CklAdapter3(private var cklLists: ArrayList<Ckl>):RecyclerView.Adapter<Ckl
 
 
 
-    class ExampleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class ExampleViewHolder(
+        itemView: View) :
+        RecyclerView.ViewHolder(itemView),
+        View.OnClickListener{
         //  ViewHolder  gibt es soviele wie gerade auf dem Screen angezeigt werden.
         //  Sie werden beim Aufbau des REcyclerViews angelegt.
         //  Alles was hier gemacht wird, ist für den jeweiligen View Holder ( Das sind nur einige)
@@ -108,17 +120,59 @@ class CklAdapter3(private var cklLists: ArrayList<Ckl>):RecyclerView.Adapter<Ckl
         // allerdings können die Werte des Textviews-Objektes später geändert werden
         // Dies geschiet jedesmall wenn in der der itemViews beimScrollen neue Datensätze
         // in einen der ViewHolder geladen werden.
+        // der ViewHolder erbt von RecyclerView.ViewHolder, als auch von View.OnCklickListener, da wir hier die OnClickListener einbauen
+        //
+        // die Klasse wird als inner Class definiert, da eine inner Class auf die in der übergeordneten Klasse definierten Variablen etc. zugreifen kann
+        //  gebraucht wird das, damit die OnClickListener auf die im Aufruf der Adapterklasse übergebenen Listener Zugriff hat
+        // Einziger Nachteil: die ViewHolder Class wird damit abhängig von der übergeordenten Adapter Class. Kann also nicht in einem anderen Adapter oder sonst wo gebraucht werden.
+        //  Kein großer Nachteil, da der ViewHolder enge mit dem Apdapter gekoppelt ist.
+        //  Die Alternative wäre es die variable listener dem ViewHolder in seiner Argumentenliste zu übergeben
+        //      ( Dazu aufnehmen in die Definitino und beim Aufruf des ViewHolders in der OnCreateViewHolder funktion oben)
+
 
         val tvName: TextView = itemView.tvName
         val tvBeschreibung: TextView = itemView.tvBeschreibung
         val ivIcon: ImageView = itemView.ivIcon
+
+        // im Init Block werden die onClickListener angelegt.
+        // Das passiert hier im ViewHolder, da die ClickListner dann auf die wenigen ViewHolder gesetzt werden, die in der View angzeigt werden
+        // Alternativ könnte man das auch in OnBindViewHolder aufrufen, dann würde der onClickHolder aber jedesmal gesetzt, wenn ein neuer Datensatz
+        // in den ViewHolder gefüllt wird. Das kostet Performance. Also : immer im ViewHolder definieren
+        //
+        // Achtung, der
+        init{
+            itemView.setOnClickListener(this)
+
+        }
+
+
+        // Die OnClick Methode sollte nicht im adapter definiert werden, da dieser nur die Daten managen soll.
+        // stattdessen wird die onClickMethode im Fragement angelegt.
+        // in diesem Adapter hier wird ein Interface definiert, das anschließend im Fragment implementiert ( mit Inhalt gefüllt) und ausgeführt wird
+        override fun onClick(v: View?) {
+            val position :Int = adapterPosition   // adapterPosition ist ein Property der Adapter Klasse und liefert die Positin des aktuell ausegwählten Datensatzes
+            if (position != RecyclerView.NO_POSITION){// If Abfrage stellt sicher, dass die Positino noch existiert nund nicht gerade eben zu. gelöscht wurde
+                listener.onItemClick(position)   // Der im Fragement definierte und der Klasse im Aufruf übergebene listener des Fragements wird für OnItemClick mit der aktuellen Position ausgelöst
+            }
+        }
+
 
 
     }
 
     fun updateContent(cklListstoupdate:ArrayList<Ckl>)
     {
-        cklLists = cklListstoupdate
+
+        this.cklLists = cklListstoupdate
         notifyDataSetChanged()
+    }
+
+    // Implementierung der OnClickFunktion als Interface:
+    // Interface bedeutet, dass in dieser Klasse nur der minimale Rumpf angelegt wird und die Funktion in der aufrufenden KLasse zu implementieren ist.
+    // Interface muss in der aufrufenden Klasse zwingend impementert werden. Damit
+    // Jede Klasse die den OnItemClickListner des Adapters implementiert,
+    // muss auch die funktion onItemClick implementieren und mit eigenem Code füllen
+    interface OnItemClickListener{
+        fun onItemClick(postion:Int)
     }
 }

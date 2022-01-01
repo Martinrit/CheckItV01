@@ -25,7 +25,7 @@ interface CklDbDao {
     @Query("Select * FROM Ckl ")
     suspend fun getAllCkls(): List<Ckl>
 
-    @Query("Select * FROM Ckl ")
+    @Query("Select * FROM Ckl")
     fun getLiveDataCklList(): LiveData<List<Ckl>>
 
     /////////////////////////////////////
@@ -46,7 +46,7 @@ interface CklDbDao {
     @Query("Select * FROM CklGrp ")
     suspend fun getAllCklGrpls(): List<CklGrp>
 
-    @Query("Select * FROM CklGrp ")
+    @Query("Select * FROM CklGrp ORDER BY name ASC ")
     fun getLiveDataCklGrpList(): LiveData<List<CklGrp>>
 
 
