@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.view.ViewPropertyAnimatorUpdateListener
 import androidx.recyclerview.widget.RecyclerView
 import de.ritterweb.checkitv01.R
 import de.ritterweb.checkitv01.repository.database.Ckl
@@ -26,11 +25,11 @@ import kotlinx.android.synthetic.main.item_rv_main.view.*
 //                                                     Siehe  Stelle 7:00 https://www.youtube.com/watch?v=wKFJsrdiGS8&list=PLrnPJCHvNZuCqEyW_LVTM9r6NnyGD4Db8&index=4
 //        Der Typ ist RecyclerView.Adapter als ckladatper3.ExampleViewHolder, also der hier in dieser Classe definerten ExampelViewHolder
 //
-class CklAdapter3(
+class CklAdapter(
     var cklLists: ArrayList<Ckl>,    /// diese InputVariable wird nicht private gesetzt, ist also public und kann daher von außen zugegriffeen werden umZ.B den Datensatz einer bestimmten Stelle im Adapter zuzugreifen
     private val listener: OnItemClickListener
 ):
-    RecyclerView.Adapter<CklAdapter3.ExampleViewHolder> (){
+    RecyclerView.Adapter<CklAdapter.ExampleViewHolder> (){
 
     // hier wird eine statisches Array  statusDrawables von Drawables angelegt, dass anschließen beim Ausfüllen dew Icons in OnBindViewholder
     // verwendet wird um das jeweilige Icon für den Status anzuzeigen

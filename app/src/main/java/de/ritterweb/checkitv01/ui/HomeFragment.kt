@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,15 +13,13 @@ import de.ritterweb.checkitv01.R
 import de.ritterweb.checkitv01.databinding.FragmentHomeBinding
 import de.ritterweb.checkitv01.ui.main.MainViewModel
 import de.ritterweb.checkitv01.ui.main.MainViewModelFactory
-import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.random.Random
 
 
-class HomeFragment : Fragment(R.layout.fragment_home),CklAdapter3.OnItemClickListener {
+class HomeFragment : Fragment(R.layout.fragment_home),CklAdapter.OnItemClickListener {
     //  Class des Fragments:
     // Die Klasse wird aus Fragment abgeleitet, übergeben wird dabei das xml-Layout des Fragments
-    // ebenso wird die KLasse aus dem CklAdapter3.OnItemClickListener abgeleitet, der dort nur als Interface angelegt ist und wiederum hier im Homefragement
+    // ebenso wird die KLasse aus dem CklAdapter.OnItemClickListener abgeleitet, der dort nur als Interface angelegt ist und wiederum hier im Homefragement
     // bei der Vewendung implementiert werden muss.
 
     // Anlegen der Variablen und Objekte die in der ganzen Klasse genutzt werden
@@ -34,7 +31,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),CklAdapter3.OnItemClickLis
     //  der Adapter der Recyclerview
     //  alle Variablen sind als Lateinit definiert, dass bedeutet, dass sie später von Funktionen innerhalb der Klasse initialisiert werden
     //    private lateinit var rv: RecyclerView   wird hier nicht verwendet, weil über ViewBinding erledigt wird.
-    private lateinit var adapter: CklAdapter3
+    private lateinit var adapter: CklAdapter
 
     // MainViewModel:  Hier die Verbindung zum MainViewModell der Anwendung, inder in drei Stufen
     //     1. Stufe : das MainViewModel  Zugriff auf AppRepository und Verabeitungslogik für die Variablen ( nicht in UI! definieren, damit UI unabhängig von Datenlogik und Berechnungen bleibt)
@@ -90,12 +87,12 @@ class HomeFragment : Fragment(R.layout.fragment_home),CklAdapter3.OnItemClickLis
         //die Klassenvariable Adapter wird gesetzt
         // Hier wird nur der Typ übergeben, aber nicht der Inhalt
         // ebenso wird dem Adapter der listener übergeben der hier im Fragment definiert ist, dies geschieht mit this
-        adapter = CklAdapter3(ArrayList(),this)
+        adapter = CklAdapter(ArrayList(),this)
 
         // der Adapter der Recyclerview wird gesetzt
         // es wird der in der vorherigen Zeile definiete adapter verwendet
         binding.rvHome.adapter = adapter
-//        binding.rvHome.adapter = CklAdapter3(ArrayList())
+//        binding.rvHome.adapter = CklAdapter(ArrayList())
 
         // es wird als LayoutManager für die RecyclingView ein LinearLayoutManagergesetzt. Es gäbe auch andere siehe Doku
         binding.rvHome.layoutManager = LinearLayoutManager(requireContext())
