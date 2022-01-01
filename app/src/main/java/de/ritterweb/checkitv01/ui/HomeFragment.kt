@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import de.ritterweb.checkitv01.R
 import de.ritterweb.checkitv01.databinding.FragmentHomeBinding
 import de.ritterweb.checkitv01.ui.main.MainViewModel
@@ -89,13 +90,19 @@ class HomeFragment : Fragment(R.layout.fragment_home){
         binding.rvHome.adapter = adapter
 //        binding.rvHome.adapter = CklAdapter3(ArrayList())
 
-        /////////
+        // es wird als LayoutManager für die RecyclingView ein LinearLayoutManagergesetzt. Es gäbe auch andere siehe Doku
+        binding.rvHome.layoutManager = LinearLayoutManager(requireContext())
+
+        // set has fixedSize= true kann gesetzt werden, wenn alle RV gleich groß sind. dann wird Rechenzeit gespart. Das kann ggf.auch zu einem Problem führen
+        // Daher hier auskommentiert. Kann ggf später testweise eingeschaltet werden
+        //    binding.rvHome.setHasFixedSize(true)
+
+
         rootView = binding.root          //Variable der Klasse wir initialisiert ( lateinit)
 
         // Das mainViewModel wirt instanziiert
         // Es wird aus der ViewModelProvider-Klasse, die als eigenes Kotlin Class File angelegt wurde generiert
         // Aufruf des ViewModelproviders mit den erforderlichen Paramentern und der Funktion .get(), die das MainViewModel lädt
-
         mainViewModel = ViewModelProvider(
             requireActivity(),
             MainViewModelFactory(requireActivity().application)
@@ -119,7 +126,6 @@ class HomeFragment : Fragment(R.layout.fragment_home){
 
         // Rückgabe der View des HomeFragements - Rückgabe muss bei Fragment gemacht werden.
         // Wenn Aufruf aus einer Activity dann geht das etwas anders, siehe  https://developer.android.com/topic/libraries/view-binding
-
         return binding.root
     }
 
