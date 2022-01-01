@@ -23,6 +23,10 @@ import kotlinx.android.synthetic.main.item_rv_main.view.*
 //
 class CklAdapter3(private var cklLists: ArrayList<Ckl>):RecyclerView.Adapter<CklAdapter3.ExampleViewHolder> (){
 
+    // hier wird eine statisches Array  statusDrawables von Drawables angelegt, dass anschließen beim Ausfüllen dew Icons in OnBindViewholder
+    // verwendet wird um das jeweilige Icon für den Status anzuzeigen
+    private val statusDrawables = arrayOf(R.drawable.ic_checklist,R.drawable.ic_work_in_progress,R.drawable.ic_done_all)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExampleViewHolder {
         /////////////////////////////////////////////////////////////////////////////
         //
@@ -73,7 +77,8 @@ class CklAdapter3(private var cklLists: ArrayList<Ckl>):RecyclerView.Adapter<Ckl
         val currentItem = cklLists[position]   // currentItem, ist der Eintrag aus dem Dataset, der angezeigt werdensoll ( übergabeparameter position)
         holder.tvName.text = currentItem.name
         holder.tvBeschreibung.text = currentItem.beschreibung
-        holder.ivIcon.setImageResource(currentItem.status)     // die einfacher zu verwendende Methode 'ivIcon.imageRessource' gibt es nicht, also muss mit dem Setter "ivIcon.setImageRessource()" gearbeitet werden
+        holder.ivIcon.setImageResource(statusDrawables [currentItem.status])     // die einfacher zu verwendende Methode 'ivIcon.imageRessource' gibt es nicht, also muss mit dem Setter "ivIcon.setImageRessource()" gearbeitet werden
+                                                                                // Das Icon wird aus dem Status abgeleitet. Hierzu wird die im Array drawables in der Klasse statisch defniierten Layouts überwiesen
 
         /// hier wird mit den im ViewHolder angelegten vals gearbeitet   ( "gecasht"), da ansonsten bei jedem Aufruf für einen Datensatz beimScrollen die
         /// FindbyId Funktion direkt oder indirekt auferufen werden müsste, was sehr langsam ist.
