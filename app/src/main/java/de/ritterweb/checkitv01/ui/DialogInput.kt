@@ -82,7 +82,7 @@ class DialogFragementCklInput(var ckl: Ckl? = null):DialogFragment(R.layout.dial
 
     private fun initEditTexts()
     {
-        etName = binding.root.etName
+        etName = binding.root.etiName
         etBeschreibung = binding.root.etBeschreibung
     }
 

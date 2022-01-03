@@ -104,6 +104,7 @@ class CklAdapter(
 
 
 
+
     inner class ExampleViewHolder(
         itemView: View) :
         RecyclerView.ViewHolder(itemView),

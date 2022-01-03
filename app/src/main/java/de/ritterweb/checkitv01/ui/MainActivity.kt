@@ -8,7 +8,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.*
-import de.ritterweb.checkitv01.NavGraphDirections
+import de.ritterweb.checkitv01.NavigationGraphDirections
 import de.ritterweb.checkitv01.R
 import de.ritterweb.checkitv01.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity(){
 
 
         return if(item.itemId == R.id.termsAndConditions) {
-                val action = NavGraphDirections.actionGlobalTermsFragment()
+                val action = NavigationGraphDirections.actionGlobalTermsFragment()
                 navController.navigate(action)
             true
 

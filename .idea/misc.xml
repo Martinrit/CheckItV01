@@ -11,7 +11,7 @@
         <entry key="..\:/Users/marti/AndroidStudioProjects/CheckItV01/app/src/main/res/layout/dialog_clk_input.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/marti/AndroidStudioProjects/CheckItV01/app/src/main/res/layout/dialog_fragement_ckl_input.xml" value="0.11499493414387031" />
         <entry key="..\:/Users/marti/AndroidStudioProjects/CheckItV01/app/src/main/res/layout/fragment_first.xml" value="0.48236009732360097" />
-        <entry key="..\:/Users/marti/AndroidStudioProjects/CheckItV01/app/src/main/res/layout/fragment_home.xml" value="0.28940217391304346" />
+        <entry key="..\:/Users/marti/AndroidStudioProjects/CheckItV01/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Users/marti/AndroidStudioProjects/CheckItV01/app/src/main/res/layout/fragment_login.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/marti/AndroidStudioProjects/CheckItV01/app/src/main/res/layout/fragment_search.xml" value="0.2484375" />
         <entry key="..\:/Users/marti/AndroidStudioProjects/CheckItV01/app/src/main/res/layout/fragment_setting.xml" value="0.23645833333333333" />
@@ -20,6 +20,7 @@
         <entry key="..\:/Users/marti/AndroidStudioProjects/CheckItV01/app/src/main/res/layout/fragment_welcome.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/marti/AndroidStudioProjects/CheckItV01/app/src/main/res/layout/item_rv_main.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/marti/AndroidStudioProjects/CheckItV01/app/src/main/res/layout/layout_home.xml" value="0.28940217391304346" />
+        <entry key="..\:/Users/marti/AndroidStudioProjects/CheckItV01/app/src/main/res/layout/test_dialog.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/marti/AndroidStudioProjects/CheckItV01/app/src/main/res/menu/bottom_menu.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/marti/AndroidStudioProjects/CheckItV01/app/src/main/res/menu/drawer_bottom_nav_menu.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/marti/AndroidStudioProjects/CheckItV01/app/src/main/res/menu/drawer_nav_menu.xml" value="0.41302083333333334" />

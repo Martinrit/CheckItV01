@@ -13,9 +13,10 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import de.ritterweb.checkitv01.NavGraphDirections
+
 import de.ritterweb.checkitv01.R
 import de.ritterweb.checkitv01.databinding.FragmentHomeBinding
+import de.ritterweb.checkitv01.repository.database.Ckl
 import de.ritterweb.checkitv01.ui.main.MainViewModel
 import de.ritterweb.checkitv01.ui.main.MainViewModelFactory
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -82,6 +83,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
     ): View {
         super.onCreate(savedInstanceState)
 
+
+
         // _binding wird dem FragementxxxxBinding des Fragements gleichgesetzt
         // damit ist dann auch binding gefüllt, dass ja in
         //  der Klasse ganz oben  per
@@ -119,6 +122,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
         ).get(MainViewModel::class.java)
 
 
+
         ///////////////////////////////////////////
         // Observer einrichten  und die LiveDatas dem Adapter als Content hinzufügen
         // Es wird ein Observer auf die LiveCkls im MainViewModel gesetzt
@@ -135,9 +139,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
 
 
 
-
-
-
         // Rückgabe der View des HomeFragements - Rückgabe muss bei Fragment gemacht werden.
         // Wenn Aufruf aus einer Activity dann geht das etwas anders, siehe  https://developer.android.com/topic/libraries/view-binding
 
@@ -145,21 +146,24 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
 
     }
 
-    override fun  onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val btn = btnAdd
-        btnAdd.setOnClickListener{
-            CklDialogFragment().show(
-                childFragmentManager,CklDialogFragment.TAG)
-
-
+//    override fun  onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
 //
-//            val action = HomeFragmentDirections.actionHomeFragmentToDialogCklInput()
-//            findNavController().navigate(action)
-
-        }
-    }
-
+//
+//        btnAdd.setOnClickListener{
+//
+//
+//
+//
+//
+//            ///  Wechsel zum DialogFragment
+//            //  die Klasse für die Navigation wurde für das HomeFragment automatisch angelegt ( HomeFragmentDirections)
+//            //  die action wird definiert über die Methode die in dieser Klasse für die im navGraph definierten Beziehungen erzeugt wurde
+//            val action = HomeFragmentDirections.actionHomeFragmentToDialogTest(ckl)
+//
+//                      findNavController().navigate(action)
+//        }
+//    }
 
 
 
@@ -171,10 +175,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
     override fun onItemClick(postion: Int) {
         Toast.makeText(requireContext(), "Position $postion wurde geklickt", Toast.LENGTH_LONG)
             .show()
-        var modifiedCkl = adapter.cklLists[postion]
-        modifiedCkl.name = "Geclickt"
-        modifiedCkl.status = 1
-        mainViewModel.updateCkl(modifiedCkl!!)
+        var selectedCkl = adapter.cklLists[postion]
+        val action = HomeFragmentDirections.actionHomeFragmentToDialogTest(selectedCkl)
+
+        findNavController().navigate(action)
+
+
         // adapter.notifyItemChanged(postion)  // braucht man  nicht, das ja der Observer im Adapter aktiv ist.
 
     }

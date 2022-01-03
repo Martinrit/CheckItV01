@@ -81,7 +81,7 @@ class DialogClkInput(var ckl: Ckl? = null):DialogFragment(R.layout.dialog_clk_in
     private fun initEditTexts()
     {
         etBeschreibung = rootView.findViewById(R.id.etBeschreibung)
-        etName = rootView.findViewById(R.id.etName)
+        etName = rootView.findViewById(R.id.etiName)
     }
 
     private fun saveData()

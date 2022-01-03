@@ -12,7 +12,8 @@ import de.ritterweb.checkitv01.databinding.FragmentWelcomeBinding
 
 class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
 
-    private val args: WelcomeFragmentArgs by navArgs()
+    //private val args: WelcomeFragmentDirections by navArgs()
+    //private val args: WelcomeFragmentArgs by navArgs()
 
     private var _binding: FragmentWelcomeBinding? = null
 
@@ -33,8 +34,8 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tvUsername.text = args.username
-        binding.tvPassword.text = args.password
+//        binding.tvUsername.text = args.username
+//        binding.tvPassword.text = args.password
 
         binding.buttonOk.setOnClickListener {
             val action = WelcomeFragmentDirections.actionWelcomeFragmentToHomeFragment()

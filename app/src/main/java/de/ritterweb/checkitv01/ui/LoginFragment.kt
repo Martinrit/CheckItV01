@@ -11,13 +11,7 @@ import de.ritterweb.checkitv01.R
 import de.ritterweb.checkitv01.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
-    private val args: LoginFragmentArgs by navArgs()  //private var args: LoginFragment ist eine autogenerierte Classe.
-                                                      // Bei erstemaliger Anwendung vor dem Weiterschreiben Rebuild Projekt drücken
-                                                        // wenn navArgs() nicht erkannt wird, die ganze Zeile nochmal neu schreiben nach dem Rebuild
 
-
-    //private var args: LoginFragment ist eine autogenerierte Classe.
-    // Bei erstemaliger Anwendung vor dem Weiterschreiben Rebuild Projekt drücken
 
     private var _binding: FragmentLoginBinding? = null
 
@@ -44,7 +38,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             val username = binding.etUsername.text.toString()
             val password = binding.etPassword.text.toString()
 
-            val action = LoginFragmentDirections.actionLoginFragmentToWelcomeFragment(username,password)
+            val action = LoginFragmentDirections.actionLoginFragmentToWelcomeFragment()
             findNavController().navigate(action)
         }
     }
