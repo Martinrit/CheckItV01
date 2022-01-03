@@ -4,19 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import de.ritterweb.checkitv01.NavGraphDirections
 import de.ritterweb.checkitv01.R
 import de.ritterweb.checkitv01.databinding.FragmentHomeBinding
 import de.ritterweb.checkitv01.ui.main.MainViewModel
 import de.ritterweb.checkitv01.ui.main.MainViewModelFactory
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlin.collections.ArrayList
 
 
-class HomeFragment : Fragment(R.layout.fragment_home),CklAdapter.OnItemClickListener {
+class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickListener {
     //  Class des Fragments:
     // Die Klasse wird aus Fragment abgeleitet, übergeben wird dabei das xml-Layout des Fragments
     // ebenso wird die KLasse aus dem CklAdapter.OnItemClickListener abgeleitet, der dort nur als Interface angelegt ist und wiederum hier im Homefragement
@@ -87,7 +93,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),CklAdapter.OnItemClickList
         //die Klassenvariable Adapter wird gesetzt
         // Hier wird nur der Typ übergeben, aber nicht der Inhalt
         // ebenso wird dem Adapter der listener übergeben der hier im Fragment definiert ist, dies geschieht mit this
-        adapter = CklAdapter(ArrayList(),this)
+        adapter = CklAdapter(ArrayList(), this)
 
         // der Adapter der Recyclerview wird gesetzt
         // es wird der in der vorherigen Zeile definiete adapter verwendet
@@ -127,18 +133,45 @@ class HomeFragment : Fragment(R.layout.fragment_home),CklAdapter.OnItemClickList
             adapter.updateContent(ArrayList(items))
         })
 
+
+
+
+
+
         // Rückgabe der View des HomeFragements - Rückgabe muss bei Fragment gemacht werden.
         // Wenn Aufruf aus einer Activity dann geht das etwas anders, siehe  https://developer.android.com/topic/libraries/view-binding
+
         return binding.root
+
     }
 
+    override fun  onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val btn = btnAdd
+        btnAdd.setOnClickListener{
+            CklDialogFragment().show(
+                childFragmentManager,CklDialogFragment.TAG)
+
+
+//
+//            val action = HomeFragmentDirections.actionHomeFragmentToDialogCklInput()
+//            findNavController().navigate(action)
+
+        }
+    }
+
+
+
+
+
     /////////  hier wird die onItemClick Funktion die im Interface des Adapters angelegt ist implementiert.
-    //  Der Rumpf der Funktion kann durch Drücken von CTRL+'I'  automatisch angelegt werden
-    //  Denn das Fragment erbt, siehe Klasendefinition ganz oben, nicht nur von Fragement, sondern auch von OnItemClickListener
-    //  und durch das Vererben wird die Implemtierung von onItemClick zwingend durch das Interface im Adapter vorgeschrieben
+//  Der Rumpf der Funktion kann durch Drücken von CTRL+'I'  automatisch angelegt werden
+//  Denn das Fragment erbt, siehe Klasendefinition ganz oben, nicht nur von Fragement, sondern auch von OnItemClickListener
+//  und durch das Vererben wird die Implemtierung von onItemClick zwingend durch das Interface im Adapter vorgeschrieben
     override fun onItemClick(postion: Int) {
-        Toast.makeText(requireContext(), "Position $postion wurde geklickt", Toast.LENGTH_LONG).show()
-        var modifiedCkl =  adapter.cklLists[postion]
+        Toast.makeText(requireContext(), "Position $postion wurde geklickt", Toast.LENGTH_LONG)
+            .show()
+        var modifiedCkl = adapter.cklLists[postion]
         modifiedCkl.name = "Geclickt"
         modifiedCkl.status = 1
         mainViewModel.updateCkl(modifiedCkl!!)
@@ -147,22 +180,12 @@ class HomeFragment : Fragment(R.layout.fragment_home),CklAdapter.OnItemClickList
     }
 
 
-
-
     override fun onDestroyView() {
         // Besonderheit beim ViewBinding in Fragments: Da die Fragments auch nach dem Schließen im Hintergrund bestehen bleiben
         // muss die angelegte Instance der xxxBinding Klasse stets beim Schließen des Fragments gelöscht werden
         super.onDestroyView()
         _binding = null
     }
-
-
-
-    fun removeItem(view: View) {   // view wird eigentlich nicht gebraucht, wird aber für den Aufruf gebraucht
-    }
-
-
-
 
 
 

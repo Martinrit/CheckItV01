@@ -1,6 +1,5 @@
 package de.ritterweb.checkitv01.ui
 
-
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
@@ -10,13 +9,15 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputLayout
 import de.ritterweb.checkitv01.R
+import de.ritterweb.checkitv01.databinding.FragmentHomeBinding
 import de.ritterweb.checkitv01.repository.database.Ckl
 import de.ritterweb.checkitv01.ui.main.MainViewModel
 import de.ritterweb.checkitv01.ui.main.MainViewModelFactory
+import kotlinx.android.synthetic.main.dialog_clk_input.view.*
 
-class DialogClkInput(var ckl: Ckl? = null):DialogFragment(R.layout.dialog_clk_input)
-
+class DialogFragementCklInput(var ckl: Ckl? = null):DialogFragment(R.layout.dialog_clk_input)
 {
+
 
     private lateinit var rootView:View
 
@@ -31,22 +32,23 @@ class DialogClkInput(var ckl: Ckl? = null):DialogFragment(R.layout.dialog_clk_in
     // ViewModel:
     private lateinit var mainViewModel: MainViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(
-            STYLE_NO_FRAME,
-            R.style.FullScreenDialog)
+    // ViewBinding
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
-    }
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        super.onCreate(savedInstanceState)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        rootView = inflater.inflate(R.layout.dialog_clk_input,container,false)
-        //dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        rootView = binding.root
 
         return rootView
 
@@ -71,17 +73,17 @@ class DialogClkInput(var ckl: Ckl? = null):DialogFragment(R.layout.dialog_clk_in
 
     private fun initButtons()
     {
-        btnSave = rootView.findViewById(R.id.dialog_btn_save)
-        btnAbort = rootView.findViewById(R.id.dialog_btn_abort)
-
-        btnSave.setOnClickListener { saveData() }
-        btnAbort.setOnClickListener { dismiss() }
+//        btnSave = rootView.findViewById(R.id.dialog_btn_save)
+//        btnAbort = rootView.findViewById(R.id.dialog_btn_abort)
+//
+//        btnSave.setOnClickListener { saveData() }
+//        btnAbort.setOnClickListener { dismiss() }
     }
 
     private fun initEditTexts()
     {
-        etBeschreibung = rootView.findViewById(R.id.etBeschreibung)
-        etName = rootView.findViewById(R.id.etName)
+        etName = binding.root.etName
+        etBeschreibung = binding.root.etBeschreibung
     }
 
     private fun saveData()
@@ -90,15 +92,15 @@ class DialogClkInput(var ckl: Ckl? = null):DialogFragment(R.layout.dialog_clk_in
         {
             if(ckl != null)
             {
-                ckl?.beschreibung = etBeschreibung.editText?.text.toString()
                 ckl?.name = etName.editText?.text.toString()
+                ckl?.beschreibung = etBeschreibung.editText?.text.toString()
                 mainViewModel.updateCkl(ckl!!)
                 Toast.makeText(requireContext(),"Voc updated in Database",Toast.LENGTH_SHORT).show()
             }
             else
             {
                 mainViewModel.insertCkl(etName.editText?.text.toString(),etBeschreibung.editText?.text.toString())
-                Toast.makeText(requireContext(),"Checklist inserted in Database",Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),"Ckl inserted in Database",Toast.LENGTH_SHORT).show()
             }
 
             dismiss()
@@ -109,6 +111,3 @@ class DialogClkInput(var ckl: Ckl? = null):DialogFragment(R.layout.dialog_clk_in
         }
     }
 }
-
-
-

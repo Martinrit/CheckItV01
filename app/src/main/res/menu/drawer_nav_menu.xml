@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/menueItemCklGrpDialog"
+        android:icon="@drawable/ic_home"
+        android:title="ChecklistenGruppen" />
+
+    <item
+        android:id="@+id/btnAdd"
+        android:icon="@drawable/ic_add"
+        android:title="Punkt2" />
+
+    <item
+        android:id="@+id/btnDelete"
+        android:icon="@drawable/ic_delete"
+        android:title="Punkt 3" />
+
+    <item
+        android:id="@+id/searchFragment"
+        android:icon="@drawable/ic_search"
+        android:title="Punkt 4" />
+</menu>
