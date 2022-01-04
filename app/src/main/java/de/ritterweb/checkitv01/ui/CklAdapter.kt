@@ -30,12 +30,13 @@ class CklAdapter(
     var cklLists: ArrayList<Ckl>,    /// diese InputVariable wird nicht private gesetzt, ist also public und kann daher von außen zugegriffeen werden umZ.B den Datensatz einer bestimmten Stelle im Adapter zuzugreifen
     private val mOnItemClicklistener: OnItemClickListener,    //( hier wird der in der aufrufenden Klasse definierte OnItemClickListener übergeben
     private val mOnItemLongClickListener: OnItemLongClickListener
-):
-    RecyclerView.Adapter<CklAdapter.ExampleViewHolder> (){
+) :
+    RecyclerView.Adapter<CklAdapter.ExampleViewHolder>() {
 
     // hier wird eine statisches Array  statusDrawables von Drawables angelegt, dass anschließen beim Ausfüllen dew Icons in OnBindViewholder
     // verwendet wird um das jeweilige Icon für den Status anzuzeigen
-    private val statusDrawables = arrayOf(R.drawable.ic_checklist,R.drawable.ic_work_in_progress,R.drawable.ic_done_all)
+    private val statusDrawables =
+        arrayOf(R.drawable.ic_checklist, R.drawable.ic_work_in_progress, R.drawable.ic_done_all)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExampleViewHolder {
         /////////////////////////////////////////////////////////////////////////////
@@ -66,7 +67,8 @@ class CklAdapter(
         // "recycelt" alsi mit anderen Daten befüllt und erneut angezeigt
         //
         ///////////////////////////////////////////////////////////////////////////////
-        val itemView = LayoutInflater.from(parent.context).inflate((R.layout.item_rv_main),parent,false)
+        val itemView =
+            LayoutInflater.from(parent.context).inflate((R.layout.item_rv_main), parent, false)
 
         return ExampleViewHolder(itemView)
     }
@@ -84,11 +86,12 @@ class CklAdapter(
         //
         /////////////////////////////////////////////////////////////////////////////
 
-        val currentItem = cklLists[position]   // currentItem, ist der Eintrag aus dem Dataset, der angezeigt werdensoll ( übergabeparameter position)
+        val currentItem =
+            cklLists[position]   // currentItem, ist der Eintrag aus dem Dataset, der angezeigt werdensoll ( übergabeparameter position)
         holder.tvName.text = currentItem.name
         holder.tvBeschreibung.text = currentItem.beschreibung
-        holder.ivIcon.setImageResource(statusDrawables [currentItem.status])     // die einfacher zu verwendende Methode 'ivIcon.imageRessource' gibt es nicht, also muss mit dem Setter "ivIcon.setImageRessource()" gearbeitet werden
-                                                                                // Das Icon wird aus dem Status abgeleitet. Hierzu wird die im Array drawables in der Klasse statisch defniierten Layouts überwiesen
+        holder.ivIcon.setImageResource(statusDrawables[currentItem.status])     // die einfacher zu verwendende Methode 'ivIcon.imageRessource' gibt es nicht, also muss mit dem Setter "ivIcon.setImageRessource()" gearbeitet werden
+        // Das Icon wird aus dem Status abgeleitet. Hierzu wird die im Array drawables in der Klasse statisch defniierten Layouts überwiesen
 
         /// hier wird mit den im ViewHolder angelegten vals gearbeitet   ( "gecasht"), da ansonsten bei jedem Aufruf für einen Datensatz beimScrollen die
         /// FindbyId Funktion direkt oder indirekt auferufen werden müsste, was sehr langsam ist.
@@ -103,16 +106,12 @@ class CklAdapter(
     // macht aber genau das gleiche
 
 
-
-
-
-
     inner class ExampleViewHolder(
-        itemView: View) :
+        itemView: View
+    ) :
         RecyclerView.ViewHolder(itemView),
         View.OnClickListener,
-        View.OnLongClickListener
-    {
+        View.OnLongClickListener {
         //  ViewHolder  gibt es soviele wie gerade auf dem Screen angezeigt werden.
         //  Sie werden beim Aufbau des REcyclerViews angelegt.
         //  Alles was hier gemacht wird, ist für den jeweiligen View Holder ( Das sind nur einige)
@@ -144,7 +143,7 @@ class CklAdapter(
         // in den ViewHolder gefüllt wird. Das kostet Performance. Also : immer im ViewHolder definieren
         //
         // Achtung, der
-        init{
+        init {
             itemView.setOnClickListener(this)
             itemView.setOnLongClickListener(this)
 
@@ -155,8 +154,9 @@ class CklAdapter(
         // stattdessen wird die onClickMethode im Fragement angelegt.
         // in diesem Adapter hier wird ein Interface definiert, das anschließend im Fragment implementiert ( mit Inhalt gefüllt) und ausgeführt wird
         override fun onClick(v: View?) {
-            val position :Int = adapterPosition   // adapterPosition ist ein Property der Adapter Klasse und liefert die Positin des aktuell ausegwählten Datensatzes
-            if (position != RecyclerView.NO_POSITION){// If Abfrage stellt sicher, dass die Positino noch existiert nund nicht gerade eben zu. gelöscht wurde
+            val position: Int =
+                adapterPosition   // adapterPosition ist ein Property der Adapter Klasse und liefert die Positin des aktuell ausegwählten Datensatzes
+            if (position != RecyclerView.NO_POSITION) {// If Abfrage stellt sicher, dass die Positino noch existiert nund nicht gerade eben zu. gelöscht wurde
                 mOnItemClicklistener.onItemClick(position)   // Der im Fragement definierte und der Klasse im Aufruf übergebene listener des Fragements wird für OnItemClick mit der aktuellen Position ausgelöst
             }
         }
@@ -165,21 +165,16 @@ class CklAdapter(
         // stattdessen wird die onClickMethode im Fragement angelegt.
         // in diesem Adapter hier wird ein Interface definiert, das anschließend im Fragment implementiert ( mit Inhalt gefüllt) und ausgeführt wird
         override fun onLongClick(v: View?): Boolean {
-            val position :Int = adapterPosition   // adapterPosition ist ein Property der Adapter Klasse und liefert die Positin des aktuell ausegwählten Datensatzes
-            if (position != RecyclerView.NO_POSITION){// If Abfrage stellt sicher, dass die Positino noch existiert nund nicht gerade eben zu. gelöscht wurde
+            val position: Int =
+                adapterPosition   // adapterPosition ist ein Property der Adapter Klasse und liefert die Positin des aktuell ausegwählten Datensatzes
+            if (position != RecyclerView.NO_POSITION) {// If Abfrage stellt sicher, dass die Positino noch existiert nund nicht gerade eben zu. gelöscht wurde
                 mOnItemLongClickListener.onItemLongClick(position)   // Der im Fragement definierte und der Klasse im Aufruf übergebene listener des Fragements wird für OnItemClick mit der aktuellen Position ausgelöst
             }
             return true
         }
-
-
-
-
     }
 
-    fun updateContent(cklListstoupdate:ArrayList<Ckl>)
-    {
-
+    fun updateContent(cklListstoupdate: ArrayList<Ckl>) {
         this.cklLists = cklListstoupdate
         notifyDataSetChanged()
     }
@@ -189,10 +184,11 @@ class CklAdapter(
     // Interface muss in der aufrufenden Klasse zwingend impementert werden. Damit
     // Jede Klasse die den OnItemClickListner des Adapters implementiert,
     // muss auch die funktion onItemClick implementieren und mit eigenem Code füllen
-    interface OnItemClickListener{
-        fun onItemClick(postion:Int)
+    interface OnItemClickListener {
+        fun onItemClick(postion: Int)
     }
-    interface OnItemLongClickListener{
-        fun onItemLongClick(postion:Int)
+
+    interface OnItemLongClickListener {
+        fun onItemLongClick(postion: Int)
     }
 }
