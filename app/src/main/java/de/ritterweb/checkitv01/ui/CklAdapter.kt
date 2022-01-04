@@ -3,6 +3,7 @@ package de.ritterweb.checkitv01.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +28,8 @@ import kotlinx.android.synthetic.main.item_rv_main.view.*
 //
 class CklAdapter(
     var cklLists: ArrayList<Ckl>,    /// diese InputVariable wird nicht private gesetzt, ist also public und kann daher von außen zugegriffeen werden umZ.B den Datensatz einer bestimmten Stelle im Adapter zuzugreifen
-    private val listener: OnItemClickListener
+    private val mOnItemClicklistener: OnItemClickListener,    //( hier wird der in der aufrufenden Klasse definierte OnItemClickListener übergeben
+    private val mOnItemLongClickListener: OnItemLongClickListener
 ):
     RecyclerView.Adapter<CklAdapter.ExampleViewHolder> (){
 
@@ -108,7 +110,9 @@ class CklAdapter(
     inner class ExampleViewHolder(
         itemView: View) :
         RecyclerView.ViewHolder(itemView),
-        View.OnClickListener{
+        View.OnClickListener,
+        View.OnLongClickListener
+    {
         //  ViewHolder  gibt es soviele wie gerade auf dem Screen angezeigt werden.
         //  Sie werden beim Aufbau des REcyclerViews angelegt.
         //  Alles was hier gemacht wird, ist für den jeweiligen View Holder ( Das sind nur einige)
@@ -142,6 +146,7 @@ class CklAdapter(
         // Achtung, der
         init{
             itemView.setOnClickListener(this)
+            itemView.setOnLongClickListener(this)
 
         }
 
@@ -152,9 +157,21 @@ class CklAdapter(
         override fun onClick(v: View?) {
             val position :Int = adapterPosition   // adapterPosition ist ein Property der Adapter Klasse und liefert die Positin des aktuell ausegwählten Datensatzes
             if (position != RecyclerView.NO_POSITION){// If Abfrage stellt sicher, dass die Positino noch existiert nund nicht gerade eben zu. gelöscht wurde
-                listener.onItemClick(position)   // Der im Fragement definierte und der Klasse im Aufruf übergebene listener des Fragements wird für OnItemClick mit der aktuellen Position ausgelöst
+                mOnItemClicklistener.onItemClick(position)   // Der im Fragement definierte und der Klasse im Aufruf übergebene listener des Fragements wird für OnItemClick mit der aktuellen Position ausgelöst
             }
         }
+
+        // Die OnClick Methode sollte nicht im adapter definiert werden, da dieser nur die Daten managen soll.
+        // stattdessen wird die onClickMethode im Fragement angelegt.
+        // in diesem Adapter hier wird ein Interface definiert, das anschließend im Fragment implementiert ( mit Inhalt gefüllt) und ausgeführt wird
+        override fun onLongClick(v: View?): Boolean {
+            val position :Int = adapterPosition   // adapterPosition ist ein Property der Adapter Klasse und liefert die Positin des aktuell ausegwählten Datensatzes
+            if (position != RecyclerView.NO_POSITION){// If Abfrage stellt sicher, dass die Positino noch existiert nund nicht gerade eben zu. gelöscht wurde
+                mOnItemLongClickListener.onItemLongClick(position)   // Der im Fragement definierte und der Klasse im Aufruf übergebene listener des Fragements wird für OnItemClick mit der aktuellen Position ausgelöst
+            }
+            return true
+        }
+
 
 
 
@@ -174,5 +191,8 @@ class CklAdapter(
     // muss auch die funktion onItemClick implementieren und mit eigenem Code füllen
     interface OnItemClickListener{
         fun onItemClick(postion:Int)
+    }
+    interface OnItemLongClickListener{
+        fun onItemLongClick(postion:Int)
     }
 }

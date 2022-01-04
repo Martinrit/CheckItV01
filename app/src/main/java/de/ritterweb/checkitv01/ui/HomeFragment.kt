@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import kotlin.collections.ArrayList
 
 
-class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickListener {
+class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickListener, CklAdapter.OnItemLongClickListener {
     //  Class des Fragments:
     // Die Klasse wird aus Fragment abgeleitet, übergeben wird dabei das xml-Layout des Fragments
     // ebenso wird die KLasse aus dem CklAdapter.OnItemClickListener abgeleitet, der dort nur als Interface angelegt ist und wiederum hier im Homefragement
@@ -84,7 +84,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
         super.onCreate(savedInstanceState)
 
 
-
         // _binding wird dem FragementxxxxBinding des Fragements gleichgesetzt
         // damit ist dann auch binding gefüllt, dass ja in
         //  der Klasse ganz oben  per
@@ -96,7 +95,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
         //die Klassenvariable Adapter wird gesetzt
         // Hier wird nur der Typ übergeben, aber nicht der Inhalt
         // ebenso wird dem Adapter der listener übergeben der hier im Fragment definiert ist, dies geschieht mit this
-        adapter = CklAdapter(ArrayList(), this)
+        adapter = CklAdapter(ArrayList(), this, this)
 
         // der Adapter der Recyclerview wird gesetzt
         // es wird der in der vorherigen Zeile definiete adapter verwendet
@@ -122,7 +121,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
         ).get(MainViewModel::class.java)
 
 
-
         ///////////////////////////////////////////
         // Observer einrichten  und die LiveDatas dem Adapter als Content hinzufügen
         // Es wird ein Observer auf die LiveCkls im MainViewModel gesetzt
@@ -137,7 +135,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
             adapter.updateContent(ArrayList(items))
         })
 
-        binding.btnAdd.setOnClickListener{
+        binding.btnAdd.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToDialogTest(null)
             findNavController().navigate(action)
         }
@@ -150,28 +148,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
 
     }
 
-
-
-
-
-//        btnAdd.setOnClickListener{
-//
-//
-//
-//
-//
-//            ///  Wechsel zum DialogFragment
-//            //  die Klasse für die Navigation wurde für das HomeFragment automatisch angelegt ( HomeFragmentDirections)
-//            //  die action wird definiert über die Methode die in dieser Klasse für die im navGraph definierten Beziehungen erzeugt wurde
-//            val action = HomeFragmentDirections.actionHomeFragmentToDialogTest(ckl)
-//
-//                      findNavController().navigate(action)
-//        }
-//    }
-
-
-
-
     /////////  hier wird die onItemClick Funktion die im Interface des Adapters angelegt ist implementiert.
 //  Der Rumpf der Funktion kann durch Drücken von CTRL+'I'  automatisch angelegt werden
 //  Denn das Fragment erbt, siehe Klasendefinition ganz oben, nicht nur von Fragement, sondern auch von OnItemClickListener
@@ -183,12 +159,19 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
         val action = HomeFragmentDirections.actionHomeFragmentToDialogTest(selectedCkl)
 
         findNavController().navigate(action)
-
-
-        // adapter.notifyItemChanged(postion)  // braucht man  nicht, das ja der Observer im Adapter aktiv ist.
-
     }
+    /////////  hier wird die onItemLongClick Funktion die im Interface des Adapters angelegt ist implementiert.
+//  Der Rumpf der Funktion kann durch Drücken von CTRL+'I'  automatisch angelegt werden
+//  Denn das Fragment erbt, siehe Klasendefinition ganz oben, nicht nur von Fragement, sondern auch von OnItemClickListener
+//  und durch das Vererben wird die Implemtierung von onItemClick zwingend durch das Interface im Adapter vorgeschrieben
+    override fun onItemLongClick(postion: Int) {
+        Toast.makeText(requireContext(), "Position $postion wurde LOOOONG geklickt", Toast.LENGTH_LONG)
+            .show()
+//        var selectedCkl = adapter.cklLists[postion]
+//        val action = HomeFragmentDirections.actionHomeFragmentToDialogTest(selectedCkl)
 
+        //findNavController().navigate(action)
+    }
 
     override fun onDestroyView() {
         // Besonderheit beim ViewBinding in Fragments: Da die Fragments auch nach dem Schließen im Hintergrund bestehen bleiben
@@ -196,7 +179,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
         super.onDestroyView()
         _binding = null
     }
-
 
 
 }

@@ -41,6 +41,7 @@ class DialogTest : DialogFragment(R.layout.dialog_clk_input) {
 
     private lateinit var mainViewModel: MainViewModel
 
+    // addCkl  Boolean Variable, die in onCreate auf True gesetzt wird, wenn die in args.ckl übergebene Ckl null ist,
     private  var addCkl:Boolean =false
     // This property is only valid between onCreateView and
 // onDestroyView.
@@ -78,9 +79,8 @@ class DialogTest : DialogFragment(R.layout.dialog_clk_input) {
             MainViewModelFactory(requireActivity().application)
         ).get(MainViewModel::class.java)
 
-        if (args.ckl ==null) {
-            addCkl = true
-        }
+        // addCkl wird definiert abhänig davon ob eine Ckl übergeben wurde oder nicht
+        addCkl = (args.ckl == null)
 
 
         binding.btnAbort.setOnClickListener() {
