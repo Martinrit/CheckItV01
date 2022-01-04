@@ -137,6 +137,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
             adapter.updateContent(ArrayList(items))
         })
 
+        binding.btnAdd.setOnClickListener{
+            val action = HomeFragmentDirections.actionHomeFragmentToDialogTest(null)
+            findNavController().navigate(action)
+        }
 
 
         // Rückgabe der View des HomeFragements - Rückgabe muss bei Fragment gemacht werden.
@@ -146,10 +150,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
 
     }
 
-//    override fun  onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//
+
+
+
+
 //        btnAdd.setOnClickListener{
 //
 //

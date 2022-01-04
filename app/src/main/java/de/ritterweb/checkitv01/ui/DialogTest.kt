@@ -41,6 +41,7 @@ class DialogTest : DialogFragment(R.layout.dialog_clk_input) {
 
     private lateinit var mainViewModel: MainViewModel
 
+    private  var addCkl:Boolean =false
     // This property is only valid between onCreateView and
 // onDestroyView.
     private val binding get() = _binding!!
@@ -77,10 +78,10 @@ class DialogTest : DialogFragment(R.layout.dialog_clk_input) {
             MainViewModelFactory(requireActivity().application)
         ).get(MainViewModel::class.java)
 
-
-        if (args.ckl != null) {
-            mCkl = args.ckl!!
+        if (args.ckl ==null) {
+            addCkl = true
         }
+
 
         binding.btnAbort.setOnClickListener() {
 
@@ -104,7 +105,10 @@ class DialogTest : DialogFragment(R.layout.dialog_clk_input) {
 
 
 
-        if (mCkl != null) {
+        if (addCkl) {
+            mCkl = Ckl(0, "", "", "heute", 1)
+        }else{
+            mCkl = args.ckl!!
             binding.etinputName.setText(mCkl.name)
             binding.etInputBeschreibung.setText(mCkl.beschreibung)
         }
