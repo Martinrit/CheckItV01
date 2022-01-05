@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.ritterweb.checkitv01.R
 import de.ritterweb.checkitv01.databinding.FragmentWelcomeBinding
+import de.ritterweb.checkitv01.ui.WelcomeFragmentDirections
 
 class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
 

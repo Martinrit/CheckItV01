@@ -1,4 +1,4 @@
-package de.ritterweb.checkitv01.ui.main
+package de.ritterweb.checkitv01.main
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

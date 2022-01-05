@@ -10,9 +10,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputLayout
 import de.ritterweb.checkitv01.R
 import de.ritterweb.checkitv01.databinding.FragmentHomeBinding
+import de.ritterweb.checkitv01.main.MainViewModel
+import de.ritterweb.checkitv01.main.MainViewModelFactory
 import de.ritterweb.checkitv01.repository.database.Ckl
-import de.ritterweb.checkitv01.ui.main.MainViewModel
-import de.ritterweb.checkitv01.ui.main.MainViewModelFactory
+
 import kotlinx.android.synthetic.main.dialog_clk_input.view.*
 
 class DialogFragementCklInput(var ckl: Ckl? = null):DialogFragment(R.layout.dialog_clk_input)

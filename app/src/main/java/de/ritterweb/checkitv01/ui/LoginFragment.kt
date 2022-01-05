@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.ritterweb.checkitv01.R
 import de.ritterweb.checkitv01.databinding.FragmentLoginBinding
+import de.ritterweb.checkitv01.ui.LoginFragmentDirections
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
 

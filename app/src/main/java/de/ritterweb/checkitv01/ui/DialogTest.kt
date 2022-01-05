@@ -1,27 +1,22 @@
 package de.ritterweb.checkitv01.ui
 
-import android.app.AlertDialog
-import android.app.Dialog
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
-import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import de.ritterweb.checkitv01.R
-import kotlinx.android.synthetic.*
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import de.ritterweb.checkitv01.databinding.FragmentHomeBinding
-import de.ritterweb.checkitv01.databinding.FragmentLoginBinding
 import de.ritterweb.checkitv01.databinding.TestDialogBinding
+import de.ritterweb.checkitv01.main.MainViewModel
+import de.ritterweb.checkitv01.main.MainViewModelFactory
 import de.ritterweb.checkitv01.repository.database.Ckl
-import de.ritterweb.checkitv01.ui.main.MainViewModel
-import de.ritterweb.checkitv01.ui.main.MainViewModelFactory
-import kotlinx.android.synthetic.main.fragment_home.*
+import de.ritterweb.checkitv01.ui.DialogTestArgs
+import de.ritterweb.checkitv01.ui.DialogTestDirections
 
 class DialogTest : DialogFragment(R.layout.dialog_clk_input) {
 

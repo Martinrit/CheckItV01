@@ -4,26 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 import de.ritterweb.checkitv01.R
 import de.ritterweb.checkitv01.databinding.FragmentHomeBinding
-import de.ritterweb.checkitv01.repository.database.Ckl
-import de.ritterweb.checkitv01.ui.main.MainViewModel
-import de.ritterweb.checkitv01.ui.main.MainViewModelFactory
-import kotlinx.android.synthetic.main.fragment_home.*
+import de.ritterweb.checkitv01.main.MainViewModel
+import de.ritterweb.checkitv01.main.MainViewModelFactory
+import de.ritterweb.checkitv01.ui.CklAdapter
 import kotlin.collections.ArrayList
 
 
-class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickListener, CklAdapter.OnItemLongClickListener {
+class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickListener,
+    CklAdapter.OnItemLongClickListener {
     //  Class des Fragments:
     // Die Klasse wird aus Fragment abgeleitet, übergeben wird dabei das xml-Layout des Fragments
     // ebenso wird die KLasse aus dem CklAdapter.OnItemClickListener abgeleitet, der dort nur als Interface angelegt ist und wiederum hier im Homefragement

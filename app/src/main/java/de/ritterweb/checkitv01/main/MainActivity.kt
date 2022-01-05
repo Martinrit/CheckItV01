@@ -1,4 +1,4 @@
-package de.ritterweb.checkitv01.ui
+package de.ritterweb.checkitv01.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
