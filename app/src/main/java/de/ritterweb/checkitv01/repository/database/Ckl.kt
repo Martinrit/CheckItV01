@@ -13,7 +13,8 @@ data class Ckl(
     var name:String,
     var beschreibung:String,
     var date: String,
-    var status:Int
+    var status:Int,
+    var orderNr:Int
 ): Parcelable
 
 

@@ -9,13 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 import de.ritterweb.checkitv01.R
 import de.ritterweb.checkitv01.databinding.FragmentHomeBinding
 import de.ritterweb.checkitv01.main.MainViewModel
 import de.ritterweb.checkitv01.main.MainViewModelFactory
-import de.ritterweb.checkitv01.ui.CklAdapter
+
+import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -132,6 +135,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
             adapter.updateContent(ArrayList(items))
         })
 
+
+
         binding.btnAdd.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToDialogTest(null)
             findNavController().navigate(action)
@@ -144,6 +149,30 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
         return binding.root
 
     }
+
+    private var simpleCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP.or(ItemTouchHelper.DOWN),0){
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            var startPosition = viewHolder.adapterPosition
+            var endPostion = target.adapterPosition
+
+            return true
+
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+
+        }
+
+    }
+
+
+
+
+
 
     /////////  hier wird die onItemClick Funktion die im Interface des Adapters angelegt ist implementiert.
 //  Der Rumpf der Funktion kann durch Drücken von CTRL+'I'  automatisch angelegt werden
@@ -176,6 +205,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
         super.onDestroyView()
         _binding = null
     }
+
+
 
 
 }

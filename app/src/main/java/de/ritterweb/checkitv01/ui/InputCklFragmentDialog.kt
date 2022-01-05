@@ -11,14 +11,15 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import de.ritterweb.checkitv01.databinding.TestDialogBinding
+import de.ritterweb.checkitv01.databinding.DialogfragmentInputCklBinding
+
 import de.ritterweb.checkitv01.main.MainViewModel
 import de.ritterweb.checkitv01.main.MainViewModelFactory
 import de.ritterweb.checkitv01.repository.database.Ckl
-import de.ritterweb.checkitv01.ui.DialogTestArgs
-import de.ritterweb.checkitv01.ui.DialogTestDirections
+import java.text.SimpleDateFormat
+import java.util.*
 
-class DialogTest : DialogFragment(R.layout.dialog_clk_input) {
+class InputCklFragmentDialog : DialogFragment(R.layout.dialogfragment_input_ckl) {
 
 
     //private val args: DialogTestArgs by navArgs()  //private var args: LoginFragment ist eine autogenerierte Classe.
@@ -29,9 +30,9 @@ class DialogTest : DialogFragment(R.layout.dialog_clk_input) {
     //private var args: LoginFragment ist eine autogenerierte Classe.
     // Bei erstemaliger Anwendung vor dem Weiterschreiben Rebuild Projekt drücken
 
-    private var _binding: TestDialogBinding? = null
+    private var _binding: DialogfragmentInputCklBinding? = null
 
-    private val args: DialogTestArgs by navArgs()
+    private val args: InputCklFragmentDialogArgs by navArgs()
     private lateinit var mCkl: Ckl
 
     private lateinit var mainViewModel: MainViewModel
@@ -42,23 +43,6 @@ class DialogTest : DialogFragment(R.layout.dialog_clk_input) {
 // onDestroyView.
     private val binding get() = _binding!!
 
-    companion object {
-
-        const val TAG = "SimpleDialog"
-
-        private const val KEY_TITLE = "KEY_TITLE"
-        private const val KEY_SUBTITLE = "KEY_SUBTITLE"
-
-        fun newInstance(title: String, subTitle: String): DialogTest {
-            val args = Bundle()
-            args.putString(KEY_TITLE, title)
-            args.putString(KEY_SUBTITLE, subTitle)
-            val fragment = DialogTest()
-            fragment.arguments = args
-            return fragment
-        }
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,7 +50,7 @@ class DialogTest : DialogFragment(R.layout.dialog_clk_input) {
         savedInstanceState: Bundle?
     ): View? {
         val infl = inflater
-        _binding = TestDialogBinding.inflate(inflater, container, false)
+        _binding = DialogfragmentInputCklBinding.inflate(inflater, container, false)
         val view = binding.root
 
         mainViewModel = ViewModelProvider(
@@ -80,7 +64,7 @@ class DialogTest : DialogFragment(R.layout.dialog_clk_input) {
 
         binding.btnAbort.setOnClickListener() {
 
-            val action = DialogTestDirections.actionDialogTestToHomeFragment()
+            val action = InputCklFragmentDialogDirections.actionDialogTestToHomeFragment()
             findNavController().navigate(action)
         }
 
@@ -101,9 +85,11 @@ class DialogTest : DialogFragment(R.layout.dialog_clk_input) {
 
 
         if (addCkl) {
-            mCkl = Ckl(0, "", "", "heute", 1)
+            mCkl = Ckl(0, "", "", "heute", 1,0)
+            binding.tvDialogTitle.setText("Neue Checkliste anlegen")
         }else{
             mCkl = args.ckl!!
+            binding.tvDialogTitle.setText("Checkliste ändern")
             binding.etinputName.setText(mCkl.name)
             binding.etInputBeschreibung.setText(mCkl.beschreibung)
         }
@@ -124,14 +110,14 @@ class DialogTest : DialogFragment(R.layout.dialog_clk_input) {
             } else {
                 mainViewModel.insertCkl(
                     binding.etName.editText?.text.toString(),
-                    binding.etBeschreibung.editText?.text.toString()
-                )
+                    binding.etBeschreibung.editText?.text.toString(),
+                    Date().toStringFormat(),0,0)
 
                 Toast.makeText(requireContext(), "Voc inserted in Database", Toast.LENGTH_SHORT)
                     .show()
             }
 
-            val action = DialogTestDirections.actionDialogTestToHomeFragment()
+            val action = InputCklFragmentDialogDirections.actionDialogTestToHomeFragment()
             findNavController().navigate(action)
         }
         else
@@ -142,6 +128,11 @@ class DialogTest : DialogFragment(R.layout.dialog_clk_input) {
                 Toast.LENGTH_SHORT
             ).show()
         }
+    }
+    ////////////////////////////////////////////////////////////
+    // Utils
+    private fun Date.toStringFormat(pattern: String = "dd.MM.yyyy"): String {
+        return SimpleDateFormat(pattern).format(this)
     }
 
 

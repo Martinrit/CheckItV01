@@ -1,6 +1,7 @@
 package de.ritterweb.checkitv01.main
 
 import android.app.Application
+import android.app.StatusBarManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -20,9 +21,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     ////////////////////////////////////////////////////////////
     // Methods to interact with the repository:
-    fun insertCkl(name: String, beschreibung: String) {
+    fun insertCkl(name: String, beschreibung: String, datum:String, status:Int,orderNr:Int) {
         viewModelScope.launch {
-            val ckl = Ckl(0L, name, beschreibung, Date().toStringFormat(), 0)
+            val ckl = Ckl(0L, name, beschreibung, datum, status,orderNr)
             repository.insertCkl(ckl)
         }
     }
