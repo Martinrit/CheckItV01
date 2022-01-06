@@ -16,6 +16,9 @@ interface CklDbDao {
     @Delete
     suspend fun deleteCkl(ckl: Ckl)
 
+    @Query ("DELETE FROM Ckl")
+    suspend fun deleteAllCkl()
+
     @Update
     suspend fun updateCkl(ckl: Ckl)
 
@@ -25,7 +28,7 @@ interface CklDbDao {
     @Query("Select * FROM Ckl ")
     suspend fun getAllCkls(): List<Ckl>
 
-    @Query("Select * FROM Ckl")
+    @Query("Select * FROM Ckl ORDER By id")
     fun getLiveDataCklList(): LiveData<List<Ckl>>
 
     /////////////////////////////////////

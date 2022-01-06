@@ -47,6 +47,15 @@ class AppRepository(application: Application) {
 
     }
 
+    suspend fun deleteAllCkl() {
+        withContext(Dispatchers.IO)
+        {
+            cklDao.deleteAllCkl()
+        }
+
+    }
+
+
     suspend fun getClkByID(cklID: Long): Ckl? {
         var ckl: Ckl? = null
         withContext(Dispatchers.IO)

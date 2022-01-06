@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.ritterweb.checkitv01.databinding.DialogfragmentInputCklBinding
-
+import de.ritterweb.checkitv01.MyUtils
 import de.ritterweb.checkitv01.main.MainViewModel
 import de.ritterweb.checkitv01.main.MainViewModelFactory
 import de.ritterweb.checkitv01.repository.database.Ckl

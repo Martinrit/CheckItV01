@@ -89,6 +89,7 @@ class CklAdapter(
             cklLists[position]   // currentItem, ist der Eintrag aus dem Dataset, der angezeigt werdensoll ( übergabeparameter position)
         holder.tvName.text = currentItem.name
         holder.tvBeschreibung.text = currentItem.beschreibung
+        holder.tvId.text = currentItem.id.toString()
         holder.ivIcon.setImageResource(statusDrawables[currentItem.status])     // die einfacher zu verwendende Methode 'ivIcon.imageRessource' gibt es nicht, also muss mit dem Setter "ivIcon.setImageRessource()" gearbeitet werden
         // Das Icon wird aus dem Status abgeleitet. Hierzu wird die im Array drawables in der Klasse statisch defniierten Layouts überwiesen
 
@@ -135,6 +136,7 @@ class CklAdapter(
         val tvName: TextView = itemView.tvName
         val tvBeschreibung: TextView = itemView.tvBeschreibung
         val ivIcon: ImageView = itemView.ivIcon
+        val tvId : TextView= itemView.tvID
 
         // im Init Block werden die onClickListener angelegt.
         // Das passiert hier im ViewHolder, da die ClickListner dann auf die wenigen ViewHolder gesetzt werden, die in der View angzeigt werden
@@ -178,6 +180,12 @@ class CklAdapter(
         notifyDataSetChanged()
     }
 
+    fun deleteItem(pos:Int){
+        cklLists.removeAt(pos)
+        notifyItemRemoved(pos)
+
+    }
+
     // Implementierung der OnClickFunktion als Interface:
     // Interface bedeutet, dass in dieser Klasse nur der minimale Rumpf angelegt wird und die Funktion in der aufrufenden KLasse zu implementieren ist.
     // Interface muss in der aufrufenden Klasse zwingend impementert werden. Damit
@@ -185,6 +193,7 @@ class CklAdapter(
     // muss auch die funktion onItemClick implementieren und mit eigenem Code füllen
     interface OnItemClickListener {
         fun onItemClick(postion: Int)
+
     }
 
     interface OnItemLongClickListener {

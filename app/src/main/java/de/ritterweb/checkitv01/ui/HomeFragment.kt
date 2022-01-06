@@ -14,9 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import de.ritterweb.checkitv01.R
+import de.ritterweb.checkitv01.SwipeGestures
+
 import de.ritterweb.checkitv01.databinding.FragmentHomeBinding
 import de.ritterweb.checkitv01.main.MainViewModel
 import de.ritterweb.checkitv01.main.MainViewModelFactory
+import java.text.SimpleDateFormat
 
 import java.util.*
 import kotlin.collections.ArrayList
@@ -97,6 +100,54 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
         // ebenso wird dem Adapter der listener übergeben der hier im Fragment definiert ist, dies geschieht mit this
         adapter = CklAdapter(ArrayList(), this, this)
 
+
+        ///////////////////////////////////////////
+        //  Swipe Funktionen in der Recyclerview implementieren
+        // 1. swipeGestures aus Class SwipeGestures instanzieren
+        //      die onSwiped Methode der Klasse overriden
+        //               darin abhängig von de Bewegungsrichtung die Logik definieren
+        //
+        // 2. itemTouchHelper instanzieren und dabei die zuvor definierten swipeGestures übergeben
+        // 3. den itemTouchHelper an die Recyclerview attachen
+
+        val swipeGestures = object : SwipeGestures(requireContext()){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+
+                val fromPosition = viewHolder.adapterPosition
+                val toPosition = target.adapterPosition
+
+                Collections.swap(adapter.cklLists,fromPosition,toPosition)
+                adapter.notifyItemMoved(fromPosition,toPosition)
+
+                return false
+
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+
+                when(direction) {
+
+                    ItemTouchHelper.LEFT -> {
+                        var pos: Int = viewHolder.adapterPosition
+                        mainViewModel.deleteCkl(adapter.cklLists[pos])
+                        adapter.deleteItem(pos)
+                    }
+
+                    ItemTouchHelper.RIGHT -> {
+                        adapter.deleteItem(viewHolder.adapterPosition)
+                    }
+                }
+
+            }
+        }
+
+        val touchHelper = ItemTouchHelper(swipeGestures)
+        touchHelper.attachToRecyclerView(binding.rvHome)
+
         // der Adapter der Recyclerview wird gesetzt
         // es wird der in der vorherigen Zeile definiete adapter verwendet
         binding.rvHome.adapter = adapter
@@ -135,6 +186,15 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
             adapter.updateContent(ArrayList(items))
         })
 
+        ///////////////////  Befüllen mit Testdaten
+//
+//        for (i in 1..25){
+//            mainViewModel.insertCkl("Checkliste $i","Beschreibung $i", Date().toStringFormat(),0,0)
+//        }
+
+        ////// Löschen aller Testdaten
+
+       //mainViewModel.deleteAllCkl()
 
 
         binding.btnAdd.setOnClickListener {
@@ -142,36 +202,21 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
             findNavController().navigate(action)
         }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+        //   Einrichten des Touchhelpers für Swipe, der in der Klassendatei SwipeToDeleteCkl definiert ist.
+        // das mainViewModell wird mitgegeben, damit nicht nur die recyclerview angepasst wird, sondern auch
+        // die Datenbank.
+
+//        var itemTouchHelper = ItemTouchHelper(SwipeToDeleteCkl(adapter,mainViewModel))
+//        itemTouchHelper.attachToRecyclerView(binding.rvHome)
+
+
 
         // Rückgabe der View des HomeFragements - Rückgabe muss bei Fragment gemacht werden.
         // Wenn Aufruf aus einer Activity dann geht das etwas anders, siehe  https://developer.android.com/topic/libraries/view-binding
-
         return binding.root
 
     }
-
-    private var simpleCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP.or(ItemTouchHelper.DOWN),0){
-        override fun onMove(
-            recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder
-        ): Boolean {
-            var startPosition = viewHolder.adapterPosition
-            var endPostion = target.adapterPosition
-
-            return true
-
-        }
-
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
-        }
-
-    }
-
-
-
-
 
 
     /////////  hier wird die onItemClick Funktion die im Interface des Adapters angelegt ist implementiert.
@@ -206,6 +251,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
         _binding = null
     }
 
+    ////////////////////////////////////////////////////////////
+    // Utils
+    private fun Date.toStringFormat(pattern: String = "dd.MM.yyyy"): String {
+        return SimpleDateFormat(pattern).format(this)
+    }
 
 
 

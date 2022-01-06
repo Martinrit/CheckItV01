@@ -40,6 +40,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun deleteAllCkl() {
+        viewModelScope.launch {
+            repository.deleteAllCkl()
+        }
+    }
+
     fun getCklById(cklId: Long): Ckl? {
         var ckl: Ckl? = null
         viewModelScope.launch {
