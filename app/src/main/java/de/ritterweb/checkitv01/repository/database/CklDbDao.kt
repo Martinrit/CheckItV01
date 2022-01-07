@@ -22,11 +22,18 @@ interface CklDbDao {
     @Update
     suspend fun updateCkl(ckl: Ckl)
 
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateEntireCkls(cklList : List<Ckl>?)
+
     @Query("Select * FROM Ckl WHERE id =:cklId")
-    suspend fun getCklById(cklId: Long): Ckl
+    fun getCklById(cklId: Long): Ckl
 
     @Query("Select * FROM Ckl ")
     suspend fun getAllCkls(): List<Ckl>
+
+    @Query("Select * FROM Ckl WHERE orderNr = (SELECT Max(orderNr) FROM Ckl)")
+    suspend fun getLargestOrderNrCklst(): List<Ckl>
+
 
     @Query("Select * FROM Ckl ORDER By id")
     fun getLiveDataCklList(): LiveData<List<Ckl>>

@@ -52,6 +52,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
+    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.3'   // wird im Tutorial vewendet   https://github.com/xabaras/RecyclerViewSwipeDecorator  hier auch der aktuelle String für die Implementierung
     implementation 'androidx.room:room-common:2.4.0'
     implementation 'androidx.room:room-ktx:2.4.0'
     testImplementation 'junit:junit:4.+'

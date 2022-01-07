@@ -1,6 +1,7 @@
 package de.ritterweb.checkitv01.repository.repository
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LiveData
 import de.ritterweb.checkitv01.repository.database.Ckl
 import de.ritterweb.checkitv01.repository.database.CklGrp
@@ -38,6 +39,17 @@ class AppRepository(application: Application) {
 
     }
 
+
+    suspend fun updateEntireCkls(cklList: List<Ckl>?) {
+        withContext(Dispatchers.IO)
+        {
+            cklDao.updateEntireCkls(cklList)
+
+        }
+
+    }
+
+
     suspend fun deleteCkl(ckl: Ckl) {
         withContext(Dispatchers.IO)
         {
@@ -65,13 +77,23 @@ class AppRepository(application: Application) {
         return ckl
     }
 
-    suspend fun getAllCkls(): List<Ckl>? {
-        var ckls: List<Ckl>? = null
+
+    suspend fun getLargestOrderNrCkls(): List<Ckl>? {
+        var test: List<Ckl>?
         withContext(Dispatchers.IO)
         {
-            ckls = cklDao.getAllCkls()
+            test = cklDao.getLargestOrderNrCklst()
+
+            Log.v("hier", "Die Ordernummer ist")
         }
-        return ckls
+        return test
+    }
+    suspend fun getAllCkls(): List<Ckl>? {
+        var result: List<Ckl>?
+        withContext(Dispatchers.IO){
+            result =  cklDao.getAllCkls()
+        }
+        return result
     }
 
 

@@ -38,7 +38,8 @@ class InputCklFragmentDialog : DialogFragment(R.layout.dialogfragment_input_ckl)
     private lateinit var mainViewModel: MainViewModel
 
     // addCkl  Boolean Variable, die in onCreate auf True gesetzt wird, wenn die in args.ckl übergebene Ckl null ist,
-    private  var addCkl:Boolean =false
+    private var addCkl: Boolean = false
+
     // This property is only valid between onCreateView and
 // onDestroyView.
     private val binding get() = _binding!!
@@ -85,9 +86,9 @@ class InputCklFragmentDialog : DialogFragment(R.layout.dialogfragment_input_ckl)
 
 
         if (addCkl) {
-            mCkl = Ckl(0, "", "", "heute", 1,0)
+            mCkl = Ckl(0, "", "", "heute", 1, 0)
             binding.tvDialogTitle.setText("Neue Checkliste anlegen")
-        }else{
+        } else {
             mCkl = args.ckl!!
             binding.tvDialogTitle.setText("Checkliste ändern")
             binding.etinputName.setText(mCkl.name)
@@ -99,19 +100,35 @@ class InputCklFragmentDialog : DialogFragment(R.layout.dialogfragment_input_ckl)
 
     private fun saveData() {
 
-        if (!TextUtils.isEmpty(binding.etinputName.editableText)&& !TextUtils.isEmpty(binding.etInputBeschreibung.editableText))
-        {
+        if (!TextUtils.isEmpty(binding.etinputName.editableText) && !TextUtils.isEmpty(binding.etInputBeschreibung.editableText)) {
             if (args.ckl != null) {
+                // Bei Update eines bestehenden Datensatzes ( args.ckl != null bedeutet, dass dem DialogFragement eine bestehende Checkliste übergeben wurde
                 mCkl?.name = binding.etName.editText?.text.toString()
                 mCkl?.beschreibung = binding.etBeschreibung.editText?.text.toString()
+
                 mainViewModel.updateCkl(mCkl!!)
                 Toast.makeText(requireContext(), "Ckl updated in Database", Toast.LENGTH_SHORT)
                     .show()
+
             } else {
+
+                //  Die Neue Ordernummer ermitteln (abfrage LargestOrderNr liefert aktuellen Höchstwert, Dann wird 1 addiert=
+                var largestOrderNrList: List<Ckl>? = mainViewModel.getLargestOrderNrCkls()
+                var newOrderNr = 0
+                if (largestOrderNrList == null) {
+                    newOrderNr = 1
+                }else{
+                    newOrderNr = largestOrderNrList[0].orderNr + 1
+                }
+
                 mainViewModel.insertCkl(
                     binding.etName.editText?.text.toString(),
                     binding.etBeschreibung.editText?.text.toString(),
-                    Date().toStringFormat(),0,0)
+                    Date().toStringFormat(),
+                    0,
+                    newOrderNr
+                )
+                //                    largestOrderNr.orderNr + 1)
 
                 Toast.makeText(requireContext(), "Voc inserted in Database", Toast.LENGTH_SHORT)
                     .show()
@@ -119,9 +136,7 @@ class InputCklFragmentDialog : DialogFragment(R.layout.dialogfragment_input_ckl)
 
             val action = InputCklFragmentDialogDirections.actionDialogTestToHomeFragment()
             findNavController().navigate(action)
-        }
-        else
-        {
+        } else {
             Toast.makeText(
                 requireContext(),
                 "Please insert data in both Fields!",
@@ -129,6 +144,7 @@ class InputCklFragmentDialog : DialogFragment(R.layout.dialogfragment_input_ckl)
             ).show()
         }
     }
+
     ////////////////////////////////////////////////////////////
     // Utils
     private fun Date.toStringFormat(pattern: String = "dd.MM.yyyy"): String {

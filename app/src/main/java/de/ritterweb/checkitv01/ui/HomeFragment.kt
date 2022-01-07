@@ -123,6 +123,13 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
                 Collections.swap(adapter.cklLists,fromPosition,toPosition)
                 adapter.notifyItemMoved(fromPosition,toPosition)
 
+
+
+
+
+
+
+
                 return false
 
             }
@@ -186,15 +193,22 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
             adapter.updateContent(ArrayList(items))
         })
 
-        ///////////////////  Befüllen mit Testdaten
-//
-//        for (i in 1..25){
-//            mainViewModel.insertCkl("Checkliste $i","Beschreibung $i", Date().toStringFormat(),0,0)
-//        }
-
         ////// Löschen aller Testdaten
 
-       //mainViewModel.deleteAllCkl()
+        //mainViewModel.deleteAllCkl()
+
+
+        ///////////////////  Befüllen mit Testdaten
+
+       //
+//        for (i in 1..20){
+//
+//            mainViewModel.insertCkl("Ckl1 $1","Ckl Beschreibung $1",Date().toString(),0,i)
+//
+//        }
+
+
+
 
 
         binding.btnAdd.setOnClickListener {
@@ -256,6 +270,17 @@ class HomeFragment : Fragment(R.layout.fragment_home), CklAdapter.OnItemClickLis
     private fun Date.toStringFormat(pattern: String = "dd.MM.yyyy"): String {
         return SimpleDateFormat(pattern).format(this)
     }
+
+//   private fun createOrderlist(adapter: CklAdapter){
+//
+//       val orderList = ArrayList<Int>()
+//       val idList = ArrayList<Long>()
+//
+//       for (ckl in adapter.current)
+//
+//
+//
+//   }
 
 
 

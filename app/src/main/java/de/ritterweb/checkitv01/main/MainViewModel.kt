@@ -11,6 +11,12 @@ import de.ritterweb.checkitv01.repository.database.CklGrp
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.room.OnConflictStrategy
+
+import androidx.room.Update
+
+
+
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     ////////////////////////////////////////////////////////////
@@ -34,6 +40,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+
+    fun updateEntireCkls(cklList : List<Ckl>?) {
+        viewModelScope.launch {
+            repository.updateEntireCkls(cklList)
+        }
+    }
+
+
     fun deleteCkl(ckl: Ckl) {
         viewModelScope.launch {
             repository.deleteCkl(ckl)
@@ -56,12 +70,27 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getAllCkls(): List<Ckl>? {
-        var ckls: List<Ckl>? = null
+        var result: List<Ckl>? = null
         viewModelScope.launch {
-            ckls = repository.getAllCkls()
+            result = repository.getAllCkls()
         }
-        return ckls
+        return result
     }
+
+
+
+
+//
+    fun getLargestOrderNrCkls(): List<Ckl>? {
+        var largesteOrderNr: List<Ckl>? = null
+        viewModelScope.launch {
+            largesteOrderNr = repository.getLargestOrderNrCkls()
+            var test = largesteOrderNr
+
+        }
+        return largesteOrderNr!!
+    }
+
 
     /////////////////////////////////////////////////////////////
     // Getters for LiveData

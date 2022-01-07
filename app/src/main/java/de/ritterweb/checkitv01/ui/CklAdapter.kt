@@ -90,6 +90,7 @@ class CklAdapter(
         holder.tvName.text = currentItem.name
         holder.tvBeschreibung.text = currentItem.beschreibung
         holder.tvId.text = currentItem.id.toString()
+        holder.tvOrderNr.text = currentItem.orderNr.toString()
         holder.ivIcon.setImageResource(statusDrawables[currentItem.status])     // die einfacher zu verwendende Methode 'ivIcon.imageRessource' gibt es nicht, also muss mit dem Setter "ivIcon.setImageRessource()" gearbeitet werden
         // Das Icon wird aus dem Status abgeleitet. Hierzu wird die im Array drawables in der Klasse statisch defniierten Layouts überwiesen
 
@@ -137,6 +138,9 @@ class CklAdapter(
         val tvBeschreibung: TextView = itemView.tvBeschreibung
         val ivIcon: ImageView = itemView.ivIcon
         val tvId : TextView= itemView.tvID
+        val tvOrderNr = itemView.tvOrderNr
+
+
 
         // im Init Block werden die onClickListener angelegt.
         // Das passiert hier im ViewHolder, da die ClickListner dann auf die wenigen ViewHolder gesetzt werden, die in der View angzeigt werden

@@ -13,7 +13,8 @@ abstract class CklDatabase():RoomDatabase()
 
     companion object
     {
-
+        // Singleton prevents multiple instances of database opening at the
+        // same time.
         @Volatile   // @Volatile erzwingt, dass alle Änderungen direkt im Hauptspeicher gespeichert werden und nicht gecacht.
         // Damit sind Änderungen immer sofort in allen Threads die die DB nutzen sichtbar
         private var INSTANCE: CklDatabase? = null
